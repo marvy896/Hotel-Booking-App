@@ -162,6 +162,7 @@ background-size: cover;
   padding: 20px;
   justify-content: center;
   align-items: center;
+  color: beige;
 }
 input[type=text], select {
   width: 100%;
@@ -204,4 +205,9 @@ input[type=submit] {
 
 input[type=submit]:hover {
   background-color: #45a049;
+}
+
+.bottomForm{
+  display: flex;
+  flex-direction: row;
 }
