@@ -6,6 +6,7 @@ import "../index.css";
 import Rooms from "./rooms";
 import Home from "./home";
 import Nav from './nav';
+import About from './about';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
        <Routes>
             <Route path='/home' element={<Home/>} />
             <Route path='/rooms' element={<Rooms/>} />
+            <Route path='/about' element={<About/>} />
             <Route path='/' element={<Home/>}/>
         </Routes>
     </div>

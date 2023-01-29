@@ -10,7 +10,7 @@ export default function Nav() {
           <Link to="/" style={{ textDecoration: "none", color: "white" }}>Home</Link>
           <Link to="" style={{ textDecoration: "none", color: "white" }}>Services</Link>
           <Link to="/rooms" style={{ textDecoration: "none", color: "white" }}>Rooms</Link>
-          <Link to="" style={{ textDecoration: "none", color: "white"}}>About Us</Link>
+          <Link to="/about" style={{ textDecoration: "none", color: "white"}}>About Us</Link>
         </ul>
         <button>Join Member</button>
       </div>
