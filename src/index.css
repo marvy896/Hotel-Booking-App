@@ -164,6 +164,16 @@ background-size: cover;
   align-items: center;
   color: beige;
 }
+
+.react-date-picker__inputGroup{
+  color: bisque;
+  background-color: antiquewhite;
+  text-emphasis-color: white;  
+}
+.react-date-picker__inputGroup {
+  background: white;
+  color: bisque;
+}
 input[type=text], select {
   width: 100%;
   padding: 12px 20px;

@@ -29,7 +29,7 @@ export default function Rooms() {
           <img src={Room1} alt="Image" />
           <h4>Presidential Suite</h4>
           <p>The Facilities offered are of course the best starting</p>
-          <Link to="/about" style={{ textDecoration: "none" }}>
+          <Link to="/booking" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
               Book{" "}
               <div className="circle">
@@ -42,7 +42,7 @@ export default function Rooms() {
           <img src={Room2} alt="Image" />
           <h4>Connecting Room</h4>
           <p>Your room and your Family members will be staying next door</p>
-          <Link to="/about" style={{ textDecoration: "none" }}>
+          <Link to="/booking" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
               Book{" "}
               <div className="circle">
@@ -55,7 +55,7 @@ export default function Rooms() {
           <img src={Room3} alt="Image" />
           <h4>Family Room</h4>
           <p>This kind of room is suitable for family staying Togther</p>
-          <Link to="/about" style={{ textDecoration: "none" }}>
+          <Link to="/booking" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
               Book{" "}
               <div className="circle">
@@ -68,7 +68,7 @@ export default function Rooms() {
           <img src={Room4} alt="Image" />
           <h4>Double Room</h4>
           <p>This type of room has large mattress and is bigger in size.</p>
-          <Link to="/about" style={{ textDecoration: "none" }}>
+          <Link to="/booking" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
               Book{" "}
               <div className="circle">

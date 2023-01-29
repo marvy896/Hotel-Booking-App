@@ -5,8 +5,8 @@ import HomeImg from "../img/home1.jpg"
 // import "../index1.css";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
   return (
     <>
     <div className="member">

@@ -5,10 +5,10 @@ import HomeImg from "../img/home1.jpg"
 // import "../index1.css";
 
 export default function Form() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  let [firstName, setFirstName] = useState("");
+  let [lastName, setLastName] = useState("");
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
 
   
   return (
