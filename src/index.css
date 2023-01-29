@@ -11,6 +11,7 @@ body {
   transition: background-color 0.3s ease-in-out, color 0.6s ease-in-out;
   justify-content: center;
   align-items: center;
+  
 }
 .nav {
   display: flex;
@@ -36,6 +37,7 @@ img{
   padding: 0 1rem;
   overflow: hidden;
   margin-bottom: 80px;
+  background: rgb(16, 52, 14);
   margin-right: 20px;
 }
 .nav1 button{
@@ -98,4 +100,37 @@ transition: opacity 2000ms ease-in-out;
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
+}
+.rooms{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.roomNums{
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: center;
+  gap: 1rem;
+}
+
+.FirstDiv{
+  color: #0744fe;
+  background-color: black;
+  position: relative;
+  height: 30px;
+  width: 250px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5.5rem;
+  border-radius: 20px;
+  border-color: rgb(246, 122, 122);
+  border-width: 10px;
+  border-width: 2px;
+  border: double;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background-color 2s;
 }
