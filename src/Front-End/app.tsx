@@ -7,6 +7,7 @@ import Rooms from "./rooms";
 import Home from "./home";
 import Nav from './nav';
 import About from './about';
+import Member from "./member";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route path='/home' element={<Home/>} />
             <Route path='/rooms' element={<Rooms/>} />
             <Route path='/about' element={<About/>} />
+            <Route path='/member' element={<Member/>} />
             <Route path='/' element={<Home/>}/>
         </Routes>
     </div>
