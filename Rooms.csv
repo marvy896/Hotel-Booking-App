@@ -1,0 +1,5 @@
+RoomId,NameOfRoom,Price ,Image,Description
+1,Presidential Suite,50.00,/src/img/room1.jpg,The Facilities offered are of course the best starting
+2,Connecting Room,40.00,/src/img/room2.jpg,Your room and your Family members will be staying next door
+3,Family Room,45,/src/img/room3.jpg,This kind of room is suitable for family staying Togther
+4,Double Room,42,/src/img/room4.jpg,This type of room has large mattress and is bigger in size.
