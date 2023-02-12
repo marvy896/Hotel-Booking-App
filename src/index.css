@@ -225,3 +225,6 @@ input[type=submit]:hover {
   display: flex;
   flex-direction: row;
 }
+.HomeImg{
+  width: 100%;
+}

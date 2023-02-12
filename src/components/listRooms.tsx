@@ -22,7 +22,7 @@ export default function ListRooms({
           <h4>{NameOfRoom}</h4>
           <p>{Description}</p>
           <p>{numberFormat}</p>
-          <Link to="/booking?room=1" style={{ textDecoration: "none" }}>
+          <Link to={`/booking?room=${RoomId}`} style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
               Book{" "}
               <div className="circle">

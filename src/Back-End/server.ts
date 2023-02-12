@@ -16,6 +16,7 @@ const port = 4000
 app.use(express.json());
 app.use('/', express.static('dist'))
 app.use("/rooms", express.static('dist'))
+app.use("/booking", express.static('dist'))
 app.use("/src", express.static('src'))
 
 app.get( "/roomsData", ( req, res)=>{
