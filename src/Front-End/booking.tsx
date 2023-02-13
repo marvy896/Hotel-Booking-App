@@ -3,13 +3,20 @@ import { Link } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import HomeImg from "../img/home1.jpg"
 import DatePicker from 'react-date-picker';
+import DatePicker2 from 'react-date-picker';
+import { Roomss } from '../components/listRooms';
+import Rooms from './rooms';
 
-export default function Booking() {
+
+export default function Booking(){
     let [firstName, setFirstName] = useState("");
-   let [lastName, setLastName] = useState("");
+    let [lastName, setLastName] = useState("");
     let [email, setEmail] = useState("");
     let [ roomType, setRoomtype] = useState("");
     let [value, onChange] = useState(new Date());
+    let [value1, onChange1] = useState(new Date());
+    let [rooms, setRooms] = useState<Roomss[]>([])
+    
 
     useEffect( ()=>{
       let roomId = new URLSearchParams(window.location.search).get("room");
@@ -18,7 +25,19 @@ export default function Booking() {
       }
     },
     []
-    )    
+    )   
+
+    useEffect(()=>{
+try{
+  fetch("/roomsData")
+  .then(res => res.json())
+  .then(({RoomsData}) => {
+     setRooms(RoomsData)
+})
+
+}catch(error){}
+  }, [])
+
     return (
       <>
       <div className="member">
@@ -45,12 +64,14 @@ export default function Booking() {
           Pick your favorite Room:
           <select value={roomType} 
             onChange={(e) => setRoomtype(e.target.value)}>
-            <option value="1">Presidential Suite</option>
-            <option value="2">Connecting Room</option>
-            <option value="3">Family Room</option>
-            <option value="4">Double Room</option>
+              {rooms && rooms.map((room)=> (
+              <option value={room.RoomId} key={room.RoomId}>{room.NameOfRoom}</option>
+            ))}
           </select>
+          <h3>Starting Day</h3>
           <DatePicker onChange={onChange} value={value} />
+          <h3>Ending Day Day</h3>
+          <DatePicker2 onChange={onChange1} value={value1} />
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}

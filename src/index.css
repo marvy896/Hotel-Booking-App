@@ -111,11 +111,12 @@ background-size: cover;
   align-items: center;
   justify-content: space-between;
 }
-.roomNums{
+.roommap{
   display: grid;
   grid-template-columns: repeat(4, auto);
   justify-content: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .FirstDiv{

@@ -20,7 +20,7 @@ export default function Home() {
         </ul>
       </div>
     </div>
-      <img src={HomeImg} alt="Image"/>
+      <img src={HomeImg} alt="Image" className="HomeImg"/>
       </>
   );
 }

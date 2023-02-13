@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import Nav from "./nav";
 import { Roomss } from "../components/listRooms";
 import ListRooms from "../components/listRooms";
-import Room1 from "../img/room1.jpg";
-import Room2 from "../img/room2.jpg";
-import Room3 from "../img/room3.jpg";
-import Room4 from "../img/room4.jpg";
-import { BiChevronRightCircle } from "react-icons/bi";
+
 
 export default function Rooms() {
   let [rooms, setRooms] = useState<Roomss[]>([])
@@ -21,9 +17,7 @@ try{
     console.log(RoomsData);
 })
 
-}catch(error){
-  console
-}
+}catch(error){}
   }, [])
    
   return (
@@ -42,7 +36,7 @@ try{
           </p>
         </div>
       </div>
-      <div className="roomNums">
+      <div className="roommap">
       {rooms && rooms.map(
           (
             item: JSX.IntrinsicAttributes & Roomss
