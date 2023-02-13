@@ -10,6 +10,7 @@ import About from './about';
 import Member from "./member";
 import Login from "./login";
 import Booking from './booking';
+import Payment from "./payment";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
             <Route path='/member' element={<Member/>} />
             <Route path='/login' element={<Login/>} />
             <Route path='/booking' element={<Booking/>} />
+            <Route path='/payment' element={<Payment/>} />
             <Route path='/' element={<Home/>}/>
         </Routes>
     </div>

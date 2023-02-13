@@ -8,7 +8,7 @@ export default function About() {
       <Nav />
       <div className="about">
         <div className="imgAbout">
-          <img src={Abot} alt="Image" />
+          <img src={Abot} alt="Image" className="HomeImg"/>
         </div>
         <div className="aboutInner">
           <h6>About Us</h6>

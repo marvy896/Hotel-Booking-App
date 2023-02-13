@@ -14,8 +14,16 @@ export default function Form() {
   return (
     <>
     <div className="member">
-      <div>
+      <div className="member1">
         <h2>Marvy's Place</h2>
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <div className="FirstDiv">
+            Member Login{" "}
+            <div className="circle">
+              <BiChevronRightCircle />
+            </div>
+          </div>
+        </Link>
       </div>
       <form>
         <input
@@ -50,7 +58,16 @@ export default function Form() {
           name="password"
           required
         />
-        <button type="submit">Submit</button>
+        <div className="bottomForm">
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <div className="FirstDiv">
+              Register{" "}
+              <div className="circle">
+                <BiChevronRightCircle />
+              </div>
+            </div>
+          </Link>
+        </div>
       </form>
       <div className="bottomForm">
         <Link to="/" style={{ textDecoration: "none" }}>
@@ -61,9 +78,9 @@ export default function Form() {
             </div>
           </div>
         </Link>
-        <Link to="/login" style={{ textDecoration: "none" }}>
+        <Link to="/payment" style={{ textDecoration: "none" }}>
           <div className="FirstDiv">
-            Member Login{" "}
+            Proceed to Payment{" "}
             <div className="circle">
               <BiChevronRightCircle />
             </div>
@@ -71,7 +88,7 @@ export default function Form() {
         </Link>
       </div>
     </div>
-    <img src={HomeImg} alt="Image"/>
+    <img src={HomeImg} alt="Image" className="HomeImg"/>
     </>
   );
 }

@@ -1,9 +1,7 @@
 import express, { response } from "express";
 import { MongoClient } from 'mongodb';
 import { Roomss } from "../components/listRooms";
-import Rooms from '../Front-End/rooms';
 
-let db;
 
 const client = new MongoClient('mongodb://0.0.0.0:27017', { monitorCommands: true });
 
@@ -17,6 +15,10 @@ app.use(express.json());
 app.use('/', express.static('dist'))
 app.use("/rooms", express.static('dist'))
 app.use("/booking", express.static('dist'))
+app.use("/login", express.static('dist'))
+app.use("/member", express.static('dist'))
+app.use("/about", express.static('dist'))
+app.use("/payment", express.static('dist'))
 app.use("/src", express.static('src'))
 
 app.get( "/roomsData", ( req, res)=>{

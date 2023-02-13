@@ -30,7 +30,16 @@ export default function Login() {
           name="password"
           required
         />
-        <button type="submit">Submit</button>
+        <div className="bottomForm">
+          <Link to="/payment" style={{ textDecoration: "none" }}>
+            <div className="FirstDiv">
+              Proceed to Payment{" "}
+              <div className="circle">
+                <BiChevronRightCircle />
+              </div>
+            </div>
+          </Link>
+        </div>
       </form>
       <Link to="/" style={{ textDecoration: "none" }}>
         <div className="FirstDiv">
@@ -41,7 +50,7 @@ export default function Login() {
         </div>
       </Link>
     </div>
-    <img src={HomeImg} alt="Image"/>
+    <img src={HomeImg} alt="Image" className="HomeImg"/>
     </>
   );
 }

@@ -80,8 +80,18 @@ try{
             name="email"
             required
           />
-          <button type="submit">Confirm Booking</button>
+          <div className="bottomForm">
+          <Link to="/member" style={{ textDecoration: "none" }}>
+            <div className="FirstDiv">
+              Proceed{" "}
+              <div className="circle">
+                <BiChevronRightCircle />
+              </div>
+            </div>
+          </Link>
+        </div>
         </form>
+        
         <div className="bottomForm">
           <Link to="/" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
@@ -93,7 +103,7 @@ try{
           </Link>
         </div>
       </div>
-      <img src={HomeImg} alt="Image" className="HomeImg"/>
+      <img src={HomeImg} alt="Image" className="HomeImg" />
       </>
        );
     }
