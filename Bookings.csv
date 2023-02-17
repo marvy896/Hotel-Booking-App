@@ -1,1 +1,2 @@
 BookingID,CustomerID FK,RoomID,Duration Start,Duration End,NumberOfOccupants,TotalPrice
+1000,2001,1,12/2/2023,15/02/2023,2,45
