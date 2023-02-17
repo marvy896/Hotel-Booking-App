@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
-import HomeImg from "../img/home1.jpg"
-// import "../index1.css";
+import ProgressBar from "@ramonak/react-progress-bar";
+import Footer from "./footer";
+
 
 export default function Form() {
   let [firstName, setFirstName] = useState("");
   let [lastName, setLastName] = useState("");
   let [email, setEmail] = useState("");
+  let [Phone, setPhone] = useState("");
   let [password, setPassword] = useState("");
+  let [Confirmpassword, setConfirmpassword] = useState("");
 
   
+
+  let submit = (e:FormEvent) => {
+    e.preventDefault()
+    if (password == Confirmpassword){
+      fetch("/customers", {method: "post", body: JSON.stringify({firstName,lastName, email,
+        Phone, password})}).then
+    }
+    else{
+      alert("Password doesn't match")
+    }
+  }
   return (
     <>
     <div className="member">
@@ -25,7 +39,7 @@ export default function Form() {
           </div>
         </Link>
       </div>
-      <form>
+      <form  onSubmit={submit}>
         <input
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
@@ -51,6 +65,14 @@ export default function Form() {
           required
         />
         <input
+          value={Phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="Phone Number"
+          type="text"
+          name="Phone"
+          required
+        />
+        <input
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
@@ -58,16 +80,22 @@ export default function Form() {
           name="password"
           required
         />
-        <div className="bottomForm">
-          <Link to="/" style={{ textDecoration: "none" }}>
+        <input
+          value={Confirmpassword}
+          onChange={(e) => setConfirmpassword(e.target.value)}
+          placeholder="Confirm Password"
+          type="password"
+          name="password"
+          required
+        />
+        <button className="bottomForm" >
             <div className="FirstDiv">
               Register{" "}
               <div className="circle">
                 <BiChevronRightCircle />
               </div>
             </div>
-          </Link>
-        </div>
+        </button>
       </form>
       <div className="bottomForm">
         <Link to="/" style={{ textDecoration: "none" }}>
@@ -88,7 +116,8 @@ export default function Form() {
         </Link>
       </div>
     </div>
-    <img src={HomeImg} alt="Image" className="HomeImg"/>
+    <ProgressBar completed={60} />
+    <Footer />
     </>
   );
 }

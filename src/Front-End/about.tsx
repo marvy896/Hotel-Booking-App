@@ -1,6 +1,7 @@
 import React from "react";
 import Nav from "./nav";
 import Abot from "../img/about.jpg";
+import Footer from "./footer";
 
 export default function About() {
   return (
@@ -19,6 +20,7 @@ export default function About() {
           </h3>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

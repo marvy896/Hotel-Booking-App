@@ -1,8 +1,6 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "../index.css";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import Rooms from "./rooms";
 import Home from "./home";
 import Nav from './nav';
@@ -11,6 +9,7 @@ import Member from "./member";
 import Login from "./login";
 import Booking from './booking';
 import Payment from "./payment";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function App() {
   return (

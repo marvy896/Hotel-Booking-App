@@ -250,3 +250,8 @@ border-top: 3px solid #ccc;
 CreditCardInput{
   border: 3px double blue;
 }
+.formBookings{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

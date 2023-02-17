@@ -3,6 +3,9 @@ import Nav from "./nav";
 import CreditCardInput from "react-credit-card-input";
 import { Link } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
+import Footer from "./footer";
+import ProgressBar from "@ramonak/react-progress-bar";
+// import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function Payment() {
   let [cardNumber, setCardNumber] = useState("");
@@ -32,13 +35,15 @@ export default function Payment() {
         <h3>Total Amount:</h3>
         <Link to="/" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
-              Proceed{" "}
+              Pay Now{" "}
               <div className="circle">
                 <BiChevronRightCircle />
               </div>
             </div>
           </Link>
       </div>
+      <ProgressBar completed={80} />
+      <Footer />
     </div>
   );
 }
