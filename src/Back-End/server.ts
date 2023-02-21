@@ -37,23 +37,38 @@ app.get("/roomsData", (req, res) => {
 });
 
 app.post("/customers", async (req, res) => {
-  let Customer = {
-    CustomerID: "2001",
-    "First Name": "Ada",
-    "Last Name": "Gentle",
-    email: "adag@gmail.com",
-    "Phone number": "9156734512",
-    PassWord: "12345",
-  };
+  let data = req.body;
+  if (
+    data.firstName &&
+    data.lastName &&
+    data.email &&
+    data.phone &&
+    data.password
+  ) {
+    let result = await client
+      .db("HotelDatabase")
+      .collection("Customer")
+      .insertOne(data);
+    console.log(data);
+    res.status(200)
+    res.json({ customerID: result.insertedId }).end();
+  } else {
+    res.status(400).end();
+  }
+});
+
+app.post("/bookRooms", async (req, res) => {
+  let data = req.body;
+  let bookings = data;
   let result = await client
     .db("HotelDatabase")
-    .collection("Customer")
-    .insertOne(Customer);
+    .collection("bookings")
+    .insertOne(bookings);
   console.log(
+    data
     `New listing created with the following id: ${result.insertedId}`
   );
-    res.status(200).end()
-
+  res.status(200).end();
 });
 
 app.listen(port, () => {

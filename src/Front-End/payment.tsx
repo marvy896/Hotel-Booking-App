@@ -42,7 +42,7 @@ export default function Payment() {
             </div>
           </Link>
       </div>
-      <ProgressBar completed={80} />
+     <ProgressBar completed={80} />
       <Footer />
     </div>
   );

@@ -9,7 +9,7 @@ import Member from "./member";
 import Login from "./login";
 import Booking from './booking';
 import Payment from "./payment";
-import ProgressBar from "@ramonak/react-progress-bar";
+
 
 export default function App() {
   return (

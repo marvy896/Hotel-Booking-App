@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import ProgressBar from "@ramonak/react-progress-bar";
 import DatePicker from "react-date-picker";
 import DatePicker2 from "react-date-picker";
 import { Roomss } from "../components/listRooms";
-import Rooms from "./rooms";
 import Footer from "./footer";
 
 export default function Booking() {
-  let [firstName, setFirstName] = useState("");
-  let [lastName, setLastName] = useState("");
-  let [occupants, setoccupants] = useState("");
+  let [occupants, setoccupants] = useState(1);
   let [roomType, setRoomtype] = useState("");
-  let [value, onChange] = useState(new Date());
-  let [value1, onChange1] = useState(new Date());
+  let [start, setStart] = useState(new Date());
+  let [end, setEnd] = useState(new Date());
   let [rooms, setRooms] = useState<Roomss[]>([]);
 
   useEffect(() => {
@@ -23,6 +20,23 @@ export default function Booking() {
       setRoomtype(roomId);
     }
   }, []);
+
+  let total = () => {
+    let price: number;
+    price = 0;
+    if (occupants >= 2) {
+      price = occupants + 5;
+    }
+    if (occupants >= 4) {
+      price = occupants + 12;
+    }
+    if (occupants >= 6) {
+      price = occupants + 20;
+    }
+    else{
+      return price
+    }
+  };
 
   useEffect(() => {
     try {
@@ -34,40 +48,33 @@ export default function Booking() {
     } catch (error) {}
   }, []);
 
+  let submit = (e: FormEvent) => {
+    e.preventDefault();
+    fetch("/bookRooms", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ occupants, roomType, start, end, rooms }),
+    }).then;
+  };
+
   return (
-    <>
+    <div>
       <div className="member">
         <div>
           <h2>Marvy's Place</h2>
         </div>
-        <form className="formBookings">
-          {/* <input
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="First name"
-            type="text"
-            name="firstName"
-            required
-          />
-          
-          <input
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Last name"
-            type="text"
-            name="lastName"
-            required
-          /> */}
+        <form className="formBookings" onSubmit={submit}>
           Number of Occupants
           <input
             value={occupants}
-            onChange={(e) => setoccupants(e.target.value)}
+            onChange={(e) => setoccupants(+e.target.value)}
             placeholder="Number of occupants"
             type="number"
             name="occupants"
             required
           />
-
           Pick your favorite Room:
           <select
             value={roomType}
@@ -81,11 +88,10 @@ export default function Booking() {
               ))}
           </select>
           <h3>Starting Day</h3>
-          <DatePicker onChange={onChange} value={value} />
+          <DatePicker onChange={setStart} value={start} />
           <h3>Ending Day Day</h3>
-          <DatePicker2 onChange={onChange1} value={value1} />
-          
-          <div className="bottomForm">
+          <DatePicker2 onChange={setEnd} value={end} />
+          <button className="bottomForm" onClick={submit}>
             <Link to="/member" style={{ textDecoration: "none" }}>
               <div className="FirstDiv">
                 Proceed{" "}
@@ -94,7 +100,7 @@ export default function Booking() {
                 </div>
               </div>
             </Link>
-          </div>
+          </button>
         </form>
         <div className="bottomForm">
           <Link to="/" style={{ textDecoration: "none" }}>
@@ -106,10 +112,10 @@ export default function Booking() {
             </div>
           </Link>
         </div>
-        Total Price:
+        <>Total Price:{total}</>
       </div>
       <ProgressBar completed={10} />
       <Footer />
-    </>
+    </div>
   );
 }
