@@ -112,7 +112,7 @@ export default function Booking() {
             </div>
           </Link>
         </div>
-        <>Total Price:{total}</>
+        <>Total Price:</>
       </div>
       <ProgressBar completed={10} />
       <Footer />
