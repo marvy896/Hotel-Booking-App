@@ -1,42 +1,29 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { createRoutesFromChildren, Link } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import ProgressBar from "@ramonak/react-progress-bar";
 import DatePicker from "react-date-picker";
 import DatePicker2 from "react-date-picker";
 import { Roomss } from "../components/listRooms";
 import Footer from "./footer";
+import ListRooms from "../components/listRooms";
+import { Prices, PricingProps } from '../components/price';
+import Pricing from '../components/price';
 
 export default function Booking() {
   let [occupants, setoccupants] = useState(1);
-  let [roomType, setRoomtype] = useState("");
+  let [roomType, setRoomtype] = useState(0);
   let [start, setStart] = useState(new Date());
   let [end, setEnd] = useState(new Date());
   let [rooms, setRooms] = useState<Roomss[]>([]);
+  let [priceOfRooms, setPriceOfRooms ] =useState<Prices[]>([]);
 
   useEffect(() => {
     let roomId = new URLSearchParams(window.location.search).get("room");
     if (roomId !== null) {
-      setRoomtype(roomId);
+      setRoomtype(+roomId);
     }
   }, []);
-
-  let total = () => {
-    let price: number;
-    price = 0;
-    if (occupants >= 2) {
-      price = occupants + 5;
-    }
-    if (occupants >= 4) {
-      price = occupants + 12;
-    }
-    if (occupants >= 6) {
-      price = occupants + 20;
-    }
-    else{
-      return price
-    }
-  };
 
   useEffect(() => {
     try {
@@ -60,7 +47,7 @@ export default function Booking() {
   };
 
   return (
-    <div>
+    <>
       <div className="member">
         <div>
           <h2>Marvy's Place</h2>
@@ -78,7 +65,7 @@ export default function Booking() {
           Pick your favorite Room:
           <select
             value={roomType}
-            onChange={(e) => setRoomtype(e.target.value)}
+            onChange={(e) => setRoomtype(+e.target.value)}
           >
             {rooms &&
               rooms.map((room) => (
@@ -111,11 +98,13 @@ export default function Booking() {
               </div>
             </div>
           </Link>
-        </div>
-        <>Total Price:</>
+          <div>
+          <Pricing RoomId={roomType} occupants={occupants} />
+          </div>
+                <Footer />
+          <ProgressBar completed={10} />
       </div>
-      <ProgressBar completed={10} />
-      <Footer />
     </div>
+    </>
   );
 }
