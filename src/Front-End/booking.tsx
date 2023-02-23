@@ -7,7 +7,7 @@ import DatePicker2 from "react-date-picker";
 import { Roomss } from "../components/listRooms";
 import Footer from "./footer";
 import ListRooms from "../components/listRooms";
-import { Prices, PricingProps } from '../components/price';
+import { Room } from '../components/Interface';
 import Pricing from '../components/price';
 
 export default function Booking() {
@@ -16,7 +16,6 @@ export default function Booking() {
   let [start, setStart] = useState(new Date());
   let [end, setEnd] = useState(new Date());
   let [rooms, setRooms] = useState<Roomss[]>([]);
-  let [priceOfRooms, setPriceOfRooms ] =useState<Prices[]>([]);
 
   useEffect(() => {
     let roomId = new URLSearchParams(window.location.search).get("room");
