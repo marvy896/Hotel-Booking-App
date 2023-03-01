@@ -1,6 +1,7 @@
 import express, { response } from "express";
 import { MongoClient } from "mongodb";
 import { Roomss } from "../components/listRooms";
+import { totalPrice } from "../components/totalPrice";
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -50,7 +51,7 @@ app.post("/customers", async (req, res) => {
       .collection("Customer")
       .insertOne(data);
     console.log(data);
-    res.status(200)
+    res.status(200);
     res.json({ customerID: result.insertedId }).end();
   } else {
     res.status(400).end();
@@ -60,15 +61,33 @@ app.post("/customers", async (req, res) => {
 app.post("/bookRooms", async (req, res) => {
   let data = req.body;
   let bookings = data;
-  let result = await client
+  let RoomId = req.body.roomType;
+  let occupants = req.body.occupants;
+
+  let fetchRoomPrice = client
     .db("HotelDatabase")
-    .collection("bookings")
-    .insertOne(bookings);
-  console.log(
-    data
-    `New listing created with the following id: ${result.insertedId}`
-  );
-  res.status(200).end();
+    .collection("RoomsData")
+    .find({ RoomId: RoomId });
+
+  fetchRoomPrice
+    .forEach((a) => {
+      let totalPriceRoom = totalPrice(occupants, a as unknown as Roomss);
+      bookings["TotalPrice"] = totalPriceRoom;
+      console.log("This is ", a);
+      console.log("This is the total Price:", totalPriceRoom)
+    })
+    .then(async () => {
+      let result = await client
+        .db("HotelDatabase")
+        .collection("bookings")
+        .insertOne(bookings);
+      console.log(
+        // data
+        `New listing created with the following id: ${result.insertedId}`
+      );
+      res.status(200).end();
+      return;
+    });
 });
 
 app.listen(port, () => {

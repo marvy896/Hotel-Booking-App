@@ -6,8 +6,6 @@ import DatePicker from "react-date-picker";
 import DatePicker2 from "react-date-picker";
 import { Roomss } from "../components/listRooms";
 import Footer from "./footer";
-import ListRooms from "../components/listRooms";
-import { Room } from '../components/Interface';
 import Pricing from '../components/price';
 
 export default function Booking() {
@@ -16,6 +14,7 @@ export default function Booking() {
   let [start, setStart] = useState(new Date());
   let [end, setEnd] = useState(new Date());
   let [rooms, setRooms] = useState<Roomss[]>([]);
+
 
   useEffect(() => {
     let roomId = new URLSearchParams(window.location.search).get("room");
@@ -41,7 +40,7 @@ export default function Booking() {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ occupants, roomType, start, end, rooms }),
+      body: JSON.stringify({ occupants, roomType, start, end, Pricing}),
     }).then;
   };
 
@@ -88,6 +87,9 @@ export default function Booking() {
             </Link>
           </button>
         </form>
+          <div className="Pricing">
+          <Pricing RoomId={roomType} occupants={occupants} />
+          </div>
         <div className="bottomForm">
           <Link to="/" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
@@ -97,12 +99,9 @@ export default function Booking() {
               </div>
             </div>
           </Link>
-          <div>
-          <Pricing RoomId={roomType} occupants={occupants} />
           </div>
-                <Footer />
-          <ProgressBar completed={10} />
-      </div>
+          <ProgressBar completed={20} />
+          <Footer />
     </div>
     </>
   );
