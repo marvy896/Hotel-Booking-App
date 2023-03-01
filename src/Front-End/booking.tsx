@@ -6,7 +6,8 @@ import DatePicker from "react-date-picker";
 import DatePicker2 from "react-date-picker";
 import { Roomss } from "../components/listRooms";
 import Footer from "./footer";
-import Pricing from '../components/price';
+import Pricing from "../components/price";
+import { NumberOfNights } from "../components/totalPrice";
 
 export default function Booking() {
   let [occupants, setoccupants] = useState(1);
@@ -14,8 +15,10 @@ export default function Booking() {
   let [start, setStart] = useState(new Date());
   let [end, setEnd] = useState(new Date());
   let [rooms, setRooms] = useState<Roomss[]>([]);
+  let TotalDays = NumberOfNights(start,end)
 
 
+  
   useEffect(() => {
     let roomId = new URLSearchParams(window.location.search).get("room");
     if (roomId !== null) {
@@ -40,7 +43,7 @@ export default function Booking() {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ occupants, roomType, start, end, Pricing}),
+      body: JSON.stringify({ occupants, roomType, start, end, Pricing }),
     }).then;
   };
 
@@ -87,9 +90,13 @@ export default function Booking() {
             </Link>
           </button>
         </form>
-          <div className="Pricing">
-          <Pricing RoomId={roomType} occupants={occupants} />
-          </div>
+        <div className="Pricing">
+          <Pricing
+            RoomId={roomType}
+            occupants={occupants}
+            NumberOfNights={TotalDays}
+          />
+        </div>
         <div className="bottomForm">
           <Link to="/" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
@@ -99,10 +106,13 @@ export default function Booking() {
               </div>
             </div>
           </Link>
-          </div>
-          <ProgressBar completed={20} />
-          <Footer />
-    </div>
+        </div>
+        <ProgressBar completed={20} />
+        <Footer />
+      </div>
     </>
   );
+}
+function registerLocale(arg0: string, es: any) {
+  throw new Error("Function not implemented.");
 }

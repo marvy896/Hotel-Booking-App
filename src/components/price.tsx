@@ -5,9 +5,10 @@ import { totalPrice } from "./totalPrice";
 export interface PricingProps {
   RoomId: number;
   occupants: number;
+  NumberOfNights: number
 }
 
-export default function Pricing({ RoomId, occupants }: PricingProps) {
+export default function Pricing({ RoomId, occupants, NumberOfNights }: PricingProps) {
   let [Costs, setCost] = useState(0);
   let newPrice = Costs / 100;
   let numberFormat = Intl.NumberFormat("en-ng", {
@@ -26,11 +27,11 @@ export default function Pricing({ RoomId, occupants }: PricingProps) {
             // throw new Error(`No Price found for Id ${RoomId}`)
             return;
           }
-          setCost(totalPrice(occupants, RoomPrice));
+          setCost(totalPrice(occupants, RoomPrice, NumberOfNights));
           console.log(RoomsData);
         });
     } catch (error) {}
-  }, [RoomId, occupants]);
+  }, [RoomId, occupants, NumberOfNights]);
 
   return (
     <div>

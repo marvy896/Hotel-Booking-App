@@ -1,7 +1,7 @@
 import express, { response } from "express";
 import { MongoClient } from "mongodb";
 import { Roomss } from "../components/listRooms";
-import { totalPrice } from "../components/totalPrice";
+import { NumberOfNights, totalPrice } from "../components/totalPrice";
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -63,7 +63,15 @@ app.post("/bookRooms", async (req, res) => {
   let bookings = data;
   let RoomId = req.body.roomType;
   let occupants = req.body.occupants;
+  let StartDay = req.body.start
+  let endDay = req.body.end;
+  
 
+
+
+   
+ 
+  
   let fetchRoomPrice = client
     .db("HotelDatabase")
     .collection("RoomsData")
@@ -71,10 +79,13 @@ app.post("/bookRooms", async (req, res) => {
 
   fetchRoomPrice
     .forEach((a) => {
-      let totalPriceRoom = totalPrice(occupants, a as unknown as Roomss);
+      let totalPriceRoom = totalPrice(occupants, a as unknown as Roomss, NumberOfNights(StartDay, endDay));
+      // let fetchingDate = 
       bookings["TotalPrice"] = totalPriceRoom;
       console.log("This is ", a);
       console.log("This is the total Price:", totalPriceRoom)
+    //  console.log(NumberOfNights() * totalPriceRoom);
+      return
     })
     .then(async () => {
       let result = await client

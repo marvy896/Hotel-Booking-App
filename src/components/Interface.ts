@@ -6,4 +6,9 @@ export interface Room {
     Description: string
 }
 
+export interface Date {
+    getTime(): unknown
+    Start: number,
+    end: number
+}
 
