@@ -60,6 +60,7 @@ export default function Booking() {
             onChange={(e) => setoccupants(+e.target.value)}
             placeholder="Number of occupants"
             type="number"
+            min="1"
             name="occupants"
             required
           />

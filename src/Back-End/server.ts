@@ -1,7 +1,9 @@
 import express, { response } from "express";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { MongoClient } from "mongodb";
 import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
+import { useEffect } from "react";
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -51,27 +53,27 @@ app.post("/customers", async (req, res) => {
       .collection("Customer")
       .insertOne(data);
     console.log(data);
-    res.status(200);
+    res.status(300);
+    // res.setHeader(
+    //   "Location",
+    //   '/payment'
+    // );
     res.json({ customerID: result.insertedId }).end();
   } else {
     res.status(400).end();
   }
 });
 
+
+
 app.post("/bookRooms", async (req, res) => {
   let data = req.body;
   let bookings = data;
   let RoomId = req.body.roomType;
   let occupants = req.body.occupants;
-  let StartDay = req.body.start
+  let StartDay = req.body.start;
   let endDay = req.body.end;
-  
 
-
-
-   
- 
-  
   let fetchRoomPrice = client
     .db("HotelDatabase")
     .collection("RoomsData")
@@ -79,13 +81,17 @@ app.post("/bookRooms", async (req, res) => {
 
   fetchRoomPrice
     .forEach((a) => {
-      let totalPriceRoom = totalPrice(occupants, a as unknown as Roomss, NumberOfNights(StartDay, endDay));
-      // let fetchingDate = 
+      let totalPriceRoom = totalPrice(
+        occupants,
+        a as unknown as Roomss,
+        NumberOfNights(StartDay, endDay)
+      );
+      // let fetchingDate =
       bookings["TotalPrice"] = totalPriceRoom;
       console.log("This is ", a);
-      console.log("This is the total Price:", totalPriceRoom)
-    //  console.log(NumberOfNights() * totalPriceRoom);
-      return
+      console.log("This is the total Price:", totalPriceRoom);
+      //  console.log(NumberOfNights() * totalPriceRoom);
+      return;
     })
     .then(async () => {
       let result = await client

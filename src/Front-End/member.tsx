@@ -1,5 +1,5 @@
-import React, { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { FormEvent, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Footer from "./footer";
@@ -11,17 +11,21 @@ export default function Form() {
   let [phone, setPhone] = useState("");
   let [password, setPassword] = useState("");
   let [Confirmpassword, setConfirmpassword] = useState("");
+  let navigate = useNavigate();
+
 
   let submit = (e: FormEvent) => {
     e.preventDefault();
-    if (password == Confirmpassword) {
+       if (password == Confirmpassword) {
       fetch("/customers", {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         method: "POST",
         body: JSON.stringify({ firstName, lastName, email, phone, password }),
-      }).then;
+      }).then( ()=>{
+        navigate('/payment')
+      })
     } else {
       alert("Password doesn't match");
     }
@@ -107,14 +111,14 @@ export default function Form() {
               </div>
             </div>
           </Link>
-          <Link to="/payment" style={{ textDecoration: "none" }}>
+          {/* <Link to="/payment" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
               Proceed to Payment{" "}
               <div className="circle">
                 <BiChevronRightCircle />
               </div>
             </div>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <ProgressBar completed={60} />
