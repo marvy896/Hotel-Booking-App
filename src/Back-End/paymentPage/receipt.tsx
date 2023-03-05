@@ -2,6 +2,8 @@ import React from 'react'
 import Payment from '../../Front-End/payment';
 
 export default function Receipt() {
+
+    
   return (
     <div>
       <div>

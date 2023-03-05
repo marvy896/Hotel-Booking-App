@@ -1,3 +1,4 @@
+import { FormEvent } from "react";
 import { Room } from "./Interface";
 
 
@@ -7,7 +8,8 @@ export let totalPrice = (occupants: number, RoomPrice: Room, NumberOfNights: num
     return TotalCostMain;
 };
 
-let message:any = () =>{
+let message:any = (e: FormEvent) =>{
+    e.preventDefault;
     alert('Please input a valid date')
 }
 export let NumberOfNights = (start: string | Date,  end: string | Date) =>{

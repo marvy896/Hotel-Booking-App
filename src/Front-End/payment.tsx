@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import Nav from "./nav";
 import CreditCardInput from "react-credit-card-input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import Footer from "./footer";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -11,6 +11,20 @@ export default function Payment() {
   let [cardNumber, setCardNumber] = useState("");
   let [expiry, setExpiry] = useState("");
   let [cvc, setCvc] = useState("");
+  let navigate = useNavigate();
+
+  let submit = (e: FormEvent) => {
+    e.preventDefault;
+    let ValidNumb = "4242 4242 4242 4242";
+    let validCvc = "234";
+    let validExpirybe = "12 / 23";
+
+    if (cardNumber == ValidNumb && expiry == validExpirybe && cvc == validCvc) {
+      navigate("/receipt");
+    } else {
+      alert("Please input a valid number");
+    }
+  };
 
   return (
     <div className="paymentPage">
@@ -32,17 +46,25 @@ export default function Payment() {
           }}
           fieldClassName="input"
         />
+        <button className="bottomForm" onClick={submit}>
+          <div className="FirstDiv">
+            Register{" "}
+            <div className="circle">
+              <BiChevronRightCircle />
+            </div>
+          </div>
+        </button>
         <h3>Total Amount:</h3>
         <Link to="/" style={{ textDecoration: "none" }}>
-            <div className="FirstDiv">
-              Pay Now{" "}
-              <div className="circle">
-                <BiChevronRightCircle />
-              </div>
+          <div className="FirstDiv">
+            Pay Now{" "}
+            <div className="circle">
+              <BiChevronRightCircle />
             </div>
-          </Link>
+          </div>
+        </Link>
       </div>
-     <ProgressBar completed={80} />
+      <ProgressBar completed={80} />
       <Footer />
     </div>
   );

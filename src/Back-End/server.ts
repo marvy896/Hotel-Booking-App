@@ -23,6 +23,7 @@ app.use("/login", express.static("dist"));
 app.use("/member", express.static("dist"));
 app.use("/about", express.static("dist"));
 app.use("/payment", express.static("dist"));
+app.use("/receipt", express.static("dist"));
 app.use("/src", express.static("src"));
 
 app.get("/roomsData", (req, res) => {
@@ -98,14 +99,27 @@ app.post("/bookRooms", async (req, res) => {
         .db("HotelDatabase")
         .collection("bookings")
         .insertOne(bookings);
-      console.log(
-        // data
-        `New listing created with the following id: ${result.insertedId}`
-      );
-      res.status(200).end();
+        res.status(200)
+        res.json({"id" : result.insertedId}).end();
       return;
     });
 });
+
+//use update to update the booking to get the booking id
+
+app.get('getPayment', (req, res) =>{
+  client.db("HotelDatabase").collection("bookings").aggregate([
+    {
+        $lookup:
+        {
+            from: "product",
+            localField: "productId",
+            foreignField: "prod_id",
+            as: "productReference"
+        }
+    }
+  ])
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

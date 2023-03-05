@@ -15,10 +15,8 @@ export default function Booking() {
   let [start, setStart] = useState(new Date());
   let [end, setEnd] = useState(new Date());
   let [rooms, setRooms] = useState<Roomss[]>([]);
-  let TotalDays = NumberOfNights(start,end)
+  let TotalDays = NumberOfNights(start, end);
 
-
-  
   useEffect(() => {
     let roomId = new URLSearchParams(window.location.search).get("room");
     if (roomId !== null) {
@@ -44,7 +42,12 @@ export default function Booking() {
       },
       method: "POST",
       body: JSON.stringify({ occupants, roomType, start, end, Pricing }),
-    }).then;
+    })
+      .then((res) => res.json())
+      .then(({id}) => {
+        console.log(id
+          );
+      });
   };
 
   return (

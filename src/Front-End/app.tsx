@@ -9,6 +9,7 @@ import Member from "./member";
 import Login from "./login";
 import Booking from './booking';
 import Payment from "./payment";
+import Receipt from "../Back-End/paymentPage/receipt";
 
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
             <Route path='/login' element={<Login/>} />
             <Route path='/booking' element={<Booking/>} />
             <Route path='/payment' element={<Payment/>} />
+            <Route path='/receipt' element={<Receipt/>} />
             <Route path='/' element={<Home/>}/>
         </Routes>
     </div>

@@ -23,8 +23,10 @@ export default function Form() {
         },
         method: "POST",
         body: JSON.stringify({ firstName, lastName, email, phone, password }),
-      }).then( ()=>{
-        navigate('/payment')
+      }).then(res => res.json())
+      .then( ({customerID})=>{
+        navigate('/payment');
+        console.log(customerID)
       })
     } else {
       alert("Password doesn't match");
