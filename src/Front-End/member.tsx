@@ -13,6 +13,15 @@ export default function Form() {
   let [Confirmpassword, setConfirmpassword] = useState("");
   let navigate = useNavigate();
 
+  let setBookings = () =>{
+    let booked = fetch("/updateBookings", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
+    return booked;
+  }
 
   let submit = (e: FormEvent) => {
     e.preventDefault();
@@ -26,6 +35,7 @@ export default function Form() {
       }).then(res => res.json())
       .then( ({customerID})=>{
         navigate('/payment');
+        setBookings();
         console.log(customerID)
       })
     } else {

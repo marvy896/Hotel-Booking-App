@@ -7,13 +7,27 @@ import DatePicker2 from "react-date-picker";
 import { Roomss } from "../components/listRooms";
 import Footer from "./footer";
 import Pricing from "../components/price";
-import { NumberOfNights } from "../components/totalPrice";
+import { NumberOfNights, totalPrice } from '../components/totalPrice';
+
+let defaultTime = () =>{
+ let time = new Date()
+ time.setHours(0 , 0 , 0, 0); 
+ return time; 
+}
+
+let endingTime = () =>{
+  let time1 = defaultTime().getTime()
+  let setTime = time1  + (60 * 60 * 24 * 1000);
+  let Time = new Date(setTime);
+  return Time
+
+}
 
 export default function Booking() {
   let [occupants, setoccupants] = useState(1);
   let [roomType, setRoomtype] = useState(0);
-  let [start, setStart] = useState(new Date());
-  let [end, setEnd] = useState(new Date());
+  let [start, setStart] = useState(defaultTime());
+  let [end, setEnd] = useState(endingTime());
   let [rooms, setRooms] = useState<Roomss[]>([]);
   let TotalDays = NumberOfNights(start, end);
 
@@ -45,8 +59,7 @@ export default function Booking() {
     })
       .then((res) => res.json())
       .then(({id}) => {
-        console.log(id
-          );
+        console.log(id);
       });
   };
 
@@ -81,8 +94,11 @@ export default function Booking() {
           </select>
           <h3>Starting Day</h3>
           <DatePicker onChange={setStart} value={start} />
+
           <h3>Ending Day Day</h3>
           <DatePicker2 onChange={setEnd} value={end} />
+          { (TotalDays == 0 && <p>please select a avalid date</p> )}
+          
           <button className="bottomForm" onClick={submit}>
             <Link to="/member" style={{ textDecoration: "none" }}>
               <div className="FirstDiv">

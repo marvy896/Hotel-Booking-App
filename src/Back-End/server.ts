@@ -1,6 +1,6 @@
 import express, { response } from "express";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
 import { useEffect } from "react";
@@ -65,8 +65,6 @@ app.post("/customers", async (req, res) => {
   }
 });
 
-
-
 app.post("/bookRooms", async (req, res) => {
   let data = req.body;
   let bookings = data;
@@ -99,27 +97,53 @@ app.post("/bookRooms", async (req, res) => {
         .db("HotelDatabase")
         .collection("bookings")
         .insertOne(bookings);
-        res.status(200)
-        res.json({"id" : result.insertedId}).end();
+      res.status(200);
+      res.json({ id: result.insertedId }).end();
       return;
+    });
+});
+
+app.get("/getPayment", (req, res) => {
+  client
+    .db("HotelDatabase")
+    .collection("bookings")
+    .aggregate([
+      { $match: { _id: new ObjectId("640a4634f95ba2b818bbf588") } },
+      {
+        $lookup: {
+          from: "Customer",
+          localField: "customer",
+          foreignField: "_id",
+          as: "BookingReference",
+        },
+      },
+    ])
+    .toArray()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      res.sendStatus(500);
     });
 });
 
 //use update to update the booking to get the booking id
 
-app.get('getPayment', (req, res) =>{
-  client.db("HotelDatabase").collection("bookings").aggregate([
-    {
-        $lookup:
-        {
-            from: "product",
-            localField: "productId",
-            foreignField: "prod_id",
-            as: "productReference"
-        }
-    }
-  ])
-})
+app.post("/updateBookings", (req, res) => {
+  client
+    .db("HotelDatabase")
+    .collection("bookings")
+    .updateOne(
+      { _id: new ObjectId("63ff181d2585b76740a9761f") },
+      { $set: { customer: new ObjectId("64017473ca25126f1563a796") } }
+    ).then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500);
+    });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

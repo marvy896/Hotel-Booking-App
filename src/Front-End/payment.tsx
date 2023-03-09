@@ -13,6 +13,7 @@ export default function Payment() {
   let [cvc, setCvc] = useState("");
   let navigate = useNavigate();
 
+
   let submit = (e: FormEvent) => {
     e.preventDefault;
     let ValidNumb = "4242 4242 4242 4242";
@@ -20,7 +21,7 @@ export default function Payment() {
     let validExpirybe = "12 / 23";
 
     if (cardNumber == ValidNumb && expiry == validExpirybe && cvc == validCvc) {
-      navigate("/receipt");
+      navigate("/receipt/id=?");
     } else {
       alert("Please input a valid number");
     }
