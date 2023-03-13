@@ -37,17 +37,17 @@ export default function Form() {
       })
         .then((res) => res.json())
         .then(({ customerID }) => {
-          let Booking = new URLSearchParams(window.location.search).get(
+          let bookingParam = new URLSearchParams(window.location.search).get(
             "booking"
           );
-          console.log(Booking);
-          if (Booking == null){
+          console.log(bookingParam);
+          if (bookingParam == null){
             throw new Error("Invalid ID");
             }
-          setBookings(Booking, customerID);
+          setBookings(bookingParam, customerID);
           console.log(customerID);
           
-          navigate(`/payment?Booking=${Booking}`);
+          navigate(`/payment?booking=${bookingParam}`);
         });
     } else {
       alert("Password doesn't match");

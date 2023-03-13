@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import Footer from "./footer";
 import ProgressBar from "@ramonak/react-progress-bar";
+import { totalPrice } from '../components/totalPrice';
 // import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function Payment() {
@@ -13,14 +14,21 @@ export default function Payment() {
   let [cvc, setCvc] = useState("");
   let navigate = useNavigate();
   let [price, setPrice] = useState('')
+  let bookingParam = new URLSearchParams(window.location.search).get(
+    "booking"
+  );
+  // console.log(bookingParam);
+  if (bookingParam == null){
+    throw new Error("Invalid ID");
+    }
 
   useEffect(() => {
     try {
-      fetch("/getPaymentIntent")
+      fetch(`/getPaymentIntent?booking=${bookingParam}`)
         .then((res) => res.json())
-        .then(({Data} ) => {
-        console.log(Data);
-        setPrice(Data)
+        .then(({totalPrice} ) => {
+        // console.log(totalPrice);
+        setPrice(totalPrice)
         });
     } catch (error) {}
   }, []);
@@ -33,10 +41,9 @@ export default function Payment() {
     let validExpirybe = "12 / 23";
 
     if (cardNumber == ValidNumb && expiry == validExpirybe && cvc == validCvc) {
-      let Booking = new URLSearchParams(window.location.search).get(
-        "booking"
-      );
-      navigate(`/receipt?Booking=${Booking}`);//put booking Id and work on the receipt then format your page
+     
+        //TODO: ADD paymenet on server
+      navigate(`/receipt?booking=${bookingParam}`);;//put booking Id and work on the receipt then format your page
     } else {
       alert("Please input a valid number");
     }

@@ -2,15 +2,15 @@ import React, { FormEvent, useEffect, useState } from "react";
 import Payment from "../../Front-End/payment";
 
 export default function Receipt() {
-  useEffect(() => {
-    try {
-      fetch("/getPayment")
-        .then((res) => res.json())
-        .then((Data ) => {
-        console.log(Data);
-        });
-    } catch (error) {}
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     fetch("/getPayment")
+  //       .then((res) => res.json())
+  //       .then((Data ) => {
+  //       console.log(Data);
+  //       });
+  //   } catch (error) {}
+  // }, []);
 
   return (
     <div>

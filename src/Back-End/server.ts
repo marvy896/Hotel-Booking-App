@@ -1,10 +1,11 @@
 import express, { response } from "express";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
 import { MongoClient, ObjectId } from "mongodb";
 import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
 import { useEffect } from "react";
 import { Room } from "../components/Interface";
+import Booking from '../Front-End/booking';
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -53,7 +54,7 @@ app.get("/getBookings", (req, res) => {
       BookingsData.push(a as unknown as Roomss);
     })
     .then(() => {
-      res.status(200).json({ BookingsData});
+      res.status(200).json({ BookingsData });
     });
   // console.log(cursor)
 });
@@ -145,25 +146,46 @@ app.get("/getPayment", (req, res) => {
     });
 });
 
-app.post("/getPaymentIntent", (req, res) =>{
-  let BookingId= req.body.id;
-  
-  client.db("HotelDatabase")
-  .collection("bookings")
-})
+app.get("/getPaymentIntent", (req, res) => {
+  let userId =  req.query.booking;
+  if (userId == null || typeof userId != "string"){
+    res.sendStatus(400)
+    return;
+  }
+  let cursor = client
+    .db("HotelDatabase")
+    .collection("bookings")
+    .findOne({ _id: new ObjectId(userId) });
+
+  // let customer = req.url.split("?")[1];
+  // let cust = new URLSearchParams(customer);
+  // let data = [cust.get("_Id")];
+  // console.log(data)
+  cursor
+    .then((a) => {
+      console.log(a);
+      if(a == null){
+        res.sendStatus(400);
+        return
+      }
+      res.status(200).json({totalPrice: a.TotalPrice});
+    });
+  // console.log(cursor)
+});
 
 //use update to update the booking to get the booking id
 
 app.post("/updateBookings", (req, res) => {
-  let bookingId:string = req.body.id;
-  let CustomerID:string = req.body.customerID;
+  let bookingId: string = req.body.id;
+  let CustomerID: string = req.body.customerID;
   client
     .db("HotelDatabase")
     .collection("bookings")
     .updateOne(
       { _id: new ObjectId(bookingId) },
       { $set: { customer: new ObjectId(CustomerID) } }
-    ).then((result) => {
+    )
+    .then((result) => {
       res.json(result);
     })
     .catch((error) => {
