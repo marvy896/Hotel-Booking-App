@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Footer from "./footer";
+import Booking from './booking';
 
 export default function Form() {
   let [firstName, setFirstName] = useState("");
@@ -13,31 +14,41 @@ export default function Form() {
   let [Confirmpassword, setConfirmpassword] = useState("");
   let navigate = useNavigate();
 
-  let setBookings = () =>{
+  let setBookings = (id:string, customerID: string) => {    
     let booked = fetch("/updateBookings", {
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
-    })
+      body: JSON.stringify({id, customerID})
+    });
     return booked;
-  }
+  };
 
   let submit = (e: FormEvent) => {
     e.preventDefault();
-       if (password == Confirmpassword) {
+    if (password == Confirmpassword) {
       fetch("/customers", {
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
         body: JSON.stringify({ firstName, lastName, email, phone, password }),
-      }).then(res => res.json())
-      .then( ({customerID})=>{
-        navigate('/payment');
-        setBookings();
-        console.log(customerID)
       })
+        .then((res) => res.json())
+        .then(({ customerID }) => {
+          let Booking = new URLSearchParams(window.location.search).get(
+            "booking"
+          );
+          console.log(Booking);
+          if (Booking == null){
+            throw new Error("Invalid ID");
+            }
+          setBookings(Booking, customerID);
+          console.log(customerID);
+          
+          navigate(`/payment?Booking=${Booking}`);
+        });
     } else {
       alert("Password doesn't match");
     }

@@ -12,6 +12,18 @@ export default function Payment() {
   let [expiry, setExpiry] = useState("");
   let [cvc, setCvc] = useState("");
   let navigate = useNavigate();
+  let [price, setPrice] = useState('')
+
+  useEffect(() => {
+    try {
+      fetch("/getPaymentIntent")
+        .then((res) => res.json())
+        .then(({Data} ) => {
+        console.log(Data);
+        setPrice(Data)
+        });
+    } catch (error) {}
+  }, []);
 
 
   let submit = (e: FormEvent) => {
@@ -21,11 +33,15 @@ export default function Payment() {
     let validExpirybe = "12 / 23";
 
     if (cardNumber == ValidNumb && expiry == validExpirybe && cvc == validCvc) {
-      navigate("/receipt/id=?");
+      let Booking = new URLSearchParams(window.location.search).get(
+        "booking"
+      );
+      navigate(`/receipt?Booking=${Booking}`);//put booking Id and work on the receipt then format your page
     } else {
       alert("Please input a valid number");
     }
   };
+
 
   return (
     <div className="paymentPage">
@@ -55,7 +71,7 @@ export default function Payment() {
             </div>
           </div>
         </button>
-        <h3>Total Amount:</h3>
+        <h3>Total Amount:{price}</h3>
         <Link to="/" style={{ textDecoration: "none" }}>
           <div className="FirstDiv">
             Pay Now{" "}

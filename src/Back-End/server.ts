@@ -4,6 +4,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
 import { useEffect } from "react";
+import { Room } from "../components/Interface";
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -36,6 +37,23 @@ app.get("/roomsData", (req, res) => {
     })
     .then(() => {
       res.status(200).json({ RoomsData });
+    });
+  // console.log(cursor)
+});
+app.get("/getBookings", (req, res) => {
+  let cursor = client.db("HotelDatabase").collection("bookings").find({});
+  let BookingsData: Room[] = [];
+  // let customer = req.url.split("?")[1];
+  // let cust = new URLSearchParams(customer);
+  // let data = [cust.get("_Id")];
+  // console.log(data)
+  cursor
+    .forEach((a) => {
+      console.log(a);
+      BookingsData.push(a as unknown as Roomss);
+    })
+    .then(() => {
+      res.status(200).json({ BookingsData});
     });
   // console.log(cursor)
 });
@@ -127,15 +145,24 @@ app.get("/getPayment", (req, res) => {
     });
 });
 
+app.post("/getPaymentIntent", (req, res) =>{
+  let BookingId= req.body.id;
+  
+  client.db("HotelDatabase")
+  .collection("bookings")
+})
+
 //use update to update the booking to get the booking id
 
 app.post("/updateBookings", (req, res) => {
+  let bookingId:string = req.body.id;
+  let CustomerID:string = req.body.customerID;
   client
     .db("HotelDatabase")
     .collection("bookings")
     .updateOne(
-      { _id: new ObjectId("63ff181d2585b76740a9761f") },
-      { $set: { customer: new ObjectId("64017473ca25126f1563a796") } }
+      { _id: new ObjectId(bookingId) },
+      { $set: { customer: new ObjectId(CustomerID) } }
     ).then((result) => {
       res.json(result);
     })

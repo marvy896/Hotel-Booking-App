@@ -135,6 +135,11 @@ background-size: cover;
   border: 4px double rgb(255, 255, 255);
   background-color: rgb(10, 10, 10);
 }
+.FirstDiv:active{
+
+  background-color: rgb(200, 255, 0);
+  
+  }
 .about{
   margin: 0;
   padding: 0;

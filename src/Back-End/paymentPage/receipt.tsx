@@ -3,14 +3,15 @@ import Payment from "../../Front-End/payment";
 
 export default function Receipt() {
   useEffect(() => {
-    let booked = fetch("/getPayment");
-    booked
-      .then((res) => res.json())
-      .then(({ customerID }) => {
-        console.log(customerID);
-      })
-      
-    });
+    try {
+      fetch("/getPayment")
+        .then((res) => res.json())
+        .then((Data ) => {
+        console.log(Data);
+        });
+    } catch (error) {}
+  }, []);
+
   return (
     <div>
       <div>

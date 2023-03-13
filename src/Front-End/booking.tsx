@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import { createRoutesFromChildren, Link } from "react-router-dom";
+import { createRoutesFromChildren, Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import ProgressBar from "@ramonak/react-progress-bar";
 import DatePicker from "react-date-picker";
@@ -7,21 +7,20 @@ import DatePicker2 from "react-date-picker";
 import { Roomss } from "../components/listRooms";
 import Footer from "./footer";
 import Pricing from "../components/price";
-import { NumberOfNights, totalPrice } from '../components/totalPrice';
+import { NumberOfNights, totalPrice } from "../components/totalPrice";
 
-let defaultTime = () =>{
- let time = new Date()
- time.setHours(0 , 0 , 0, 0); 
- return time; 
-}
+let defaultTime = () => {
+  let time = new Date();
+  time.setHours(0, 0, 0, 0);
+  return time;
+};
 
-let endingTime = () =>{
-  let time1 = defaultTime().getTime()
-  let setTime = time1  + (60 * 60 * 24 * 1000);
+let endingTime = () => {
+  let time1 = defaultTime().getTime();
+  let setTime = time1 + 60 * 60 * 24 * 1000;
   let Time = new Date(setTime);
-  return Time
-
-}
+  return Time;
+};
 
 export default function Booking() {
   let [occupants, setoccupants] = useState(1);
@@ -30,6 +29,7 @@ export default function Booking() {
   let [end, setEnd] = useState(endingTime());
   let [rooms, setRooms] = useState<Roomss[]>([]);
   let TotalDays = NumberOfNights(start, end);
+  let navigate = useNavigate();
 
   useEffect(() => {
     let roomId = new URLSearchParams(window.location.search).get("room");
@@ -58,8 +58,9 @@ export default function Booking() {
       body: JSON.stringify({ occupants, roomType, start, end, Pricing }),
     })
       .then((res) => res.json())
-      .then(({id}) => {
+      .then(({ id }) => {
         console.log(id);
+        navigate(`/member?booking=${id}`);
       });
   };
 
@@ -94,20 +95,18 @@ export default function Booking() {
           </select>
           <h3>Starting Day</h3>
           <DatePicker onChange={setStart} value={start} />
-
           <h3>Ending Day Day</h3>
           <DatePicker2 onChange={setEnd} value={end} />
-          { (TotalDays == 0 && <p>please select a avalid date</p> )}
-          
+          {TotalDays == 0 && <p>please select a avalid date</p>}
           <button className="bottomForm" onClick={submit}>
-            <Link to="/member" style={{ textDecoration: "none" }}>
+            <div style={{ textDecoration: "none" }}>
               <div className="FirstDiv">
                 Proceed{" "}
                 <div className="circle">
                   <BiChevronRightCircle />
                 </div>
               </div>
-            </Link>
+            </div>
           </button>
         </form>
         <div className="Pricing">
