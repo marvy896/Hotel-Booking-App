@@ -5,7 +5,7 @@ import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
 import { useEffect } from "react";
 import { Room } from "../components/Interface";
-import Booking from '../Front-End/booking';
+import Booking from "../Front-End/booking";
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -44,10 +44,6 @@ app.get("/roomsData", (req, res) => {
 app.get("/getBookings", (req, res) => {
   let cursor = client.db("HotelDatabase").collection("bookings").find({});
   let BookingsData: Room[] = [];
-  // let customer = req.url.split("?")[1];
-  // let cust = new URLSearchParams(customer);
-  // let data = [cust.get("_Id")];
-  // console.log(data)
   cursor
     .forEach((a) => {
       console.log(a);
@@ -56,6 +52,26 @@ app.get("/getBookings", (req, res) => {
     .then(() => {
       res.status(200).json({ BookingsData });
     });
+});
+
+app.get("/getSpecBookings", (req, res) => {
+  let userId = req.query.booking;
+  if (userId == null || typeof userId != "string") {
+    res.sendStatus(400);
+    return;
+  }
+  let cursor = client
+    .db("HotelDatabase")
+    .collection("bookings")
+    .findOne({ _id: new ObjectId(userId) });
+  cursor.then((a) => {
+    console.log(a);
+    if (a == null) {
+      res.sendStatus(400);
+      return;
+    }
+    res.status(200).json({ a });
+  });
   // console.log(cursor)
 });
 
@@ -123,11 +139,16 @@ app.post("/bookRooms", async (req, res) => {
 });
 
 app.get("/getPayment", (req, res) => {
+  let userId = req.query.booking;
+  if (userId == null || typeof userId != "string") {
+    res.sendStatus(400);
+    return;
+  }
   client
     .db("HotelDatabase")
     .collection("bookings")
     .aggregate([
-      { $match: { _id: new ObjectId("640a4634f95ba2b818bbf588") } },
+      { $match: { _id: new ObjectId(userId) } },
       {
         $lookup: {
           from: "Customer",
@@ -139,7 +160,12 @@ app.get("/getPayment", (req, res) => {
     ])
     .toArray()
     .then((result) => {
-      res.json(result);
+      let data = result[0];
+      data.customer = data.BookingReference[0];
+      delete data.customer.password;
+      delete data.BookingReference
+
+      res.json(data );
     })
     .catch((error) => {
       res.sendStatus(500);
@@ -147,29 +173,23 @@ app.get("/getPayment", (req, res) => {
 });
 
 app.get("/getPaymentIntent", (req, res) => {
-  let userId =  req.query.booking;
-  if (userId == null || typeof userId != "string"){
-    res.sendStatus(400)
+  let userId = req.query.booking;
+  if (userId == null || typeof userId != "string") {
+    res.sendStatus(400);
     return;
   }
   let cursor = client
     .db("HotelDatabase")
     .collection("bookings")
     .findOne({ _id: new ObjectId(userId) });
-
-  // let customer = req.url.split("?")[1];
-  // let cust = new URLSearchParams(customer);
-  // let data = [cust.get("_Id")];
-  // console.log(data)
-  cursor
-    .then((a) => {
-      console.log(a);
-      if(a == null){
-        res.sendStatus(400);
-        return
-      }
-      res.status(200).json({totalPrice: a.TotalPrice});
-    });
+  cursor.then((a) => {
+    console.log(a);
+    if (a == null) {
+      res.sendStatus(400);
+      return;
+    }
+    res.status(200).json({ totalPrice: a.TotalPrice });
+  });
   // console.log(cursor)
 });
 

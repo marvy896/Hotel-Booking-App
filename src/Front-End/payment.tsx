@@ -42,7 +42,8 @@ export default function Payment() {
 
     if (cardNumber == ValidNumb && expiry == validExpirybe && cvc == validCvc) {
      
-        //TODO: ADD paymenet on server
+        //TODO: ADD Card paymenet on server
+        //TODO: ADD Payment Date to server
       navigate(`/receipt?booking=${bookingParam}`);;//put booking Id and work on the receipt then format your page
     } else {
       alert("Please input a valid number");
