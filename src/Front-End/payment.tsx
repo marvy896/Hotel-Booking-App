@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import Footer from "./footer";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { totalPrice } from '../components/totalPrice';
+import { totalPrice } from "../components/totalPrice";
 // import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function Payment() {
@@ -13,26 +13,28 @@ export default function Payment() {
   let [expiry, setExpiry] = useState("");
   let [cvc, setCvc] = useState("");
   let navigate = useNavigate();
-  let [price, setPrice] = useState('')
-  let bookingParam = new URLSearchParams(window.location.search).get(
-    "booking"
-  );
+  let [price, setPrice] = useState(0);
+  let bookingParam = new URLSearchParams(window.location.search).get("booking");
   // console.log(bookingParam);
-  if (bookingParam == null){
+  if (bookingParam == null) {
     throw new Error("Invalid ID");
-    }
+  }
 
   useEffect(() => {
     try {
       fetch(`/getPaymentIntent?booking=${bookingParam}`)
         .then((res) => res.json())
-        .then(({totalPrice} ) => {
-        // console.log(totalPrice);
-        setPrice(totalPrice)
+        .then(({ totalPrice }) => {
+          // console.log(totalPrice);
+          setPrice(totalPrice);
         });
     } catch (error) {}
   }, []);
-
+  let numberFormat = Intl.NumberFormat("en-ng", {
+    style: "currency",
+    currency: "NGN",
+    currencyDisplay: "narrowSymbol",
+  }).format(price);
 
   let submit = (e: FormEvent) => {
     e.preventDefault;
@@ -41,15 +43,13 @@ export default function Payment() {
     let validExpirybe = "12 / 23";
 
     if (cardNumber == ValidNumb && expiry == validExpirybe && cvc == validCvc) {
-     
-        //TODO: ADD Card paymenet on server
-        //TODO: ADD Payment Date to server
-      navigate(`/receipt?booking=${bookingParam}`);;//put booking Id and work on the receipt then format your page
+      //TODO: ADD Card paymenet on server
+      //TODO: ADD Payment Date to server
+      navigate(`/receipt?booking=${bookingParam}`); //put booking Id and work on the receipt then format your page
     } else {
       alert("Please input a valid number");
     }
   };
-
 
   return (
     <div className="paymentPage">
@@ -79,7 +79,7 @@ export default function Payment() {
             </div>
           </div>
         </button>
-        <h3>Total Amount:{price}</h3>
+        <div className="Total1">Total Amount: {numberFormat}</div>
         <Link to="/" style={{ textDecoration: "none" }}>
           <div className="FirstDiv">
             Pay Now{" "}
