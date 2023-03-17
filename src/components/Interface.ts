@@ -14,6 +14,8 @@ export interface ReceiptData {
   start: string;
   end: string;
   TotalPrice: number;
+  Date_of_payment: string;
+  cardNumber: string
   customer: {
     _id: string;
     firstName: string;

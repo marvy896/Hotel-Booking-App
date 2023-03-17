@@ -27,7 +27,7 @@ export default function ListRooms({
   return (
     <div className="roomNums">
       <div>
-        <div className="img" style={{ backgroundImage: `url(${Image})` }}></div>
+        <div className="img" style={{backgroundImage: `url(${Image})`}}></div>
         <h4>{NameOfRoom}</h4>
         <p>{Description}</p>
         <p>{numberFormat}</p>

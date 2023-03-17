@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useState } from "react";
-import Payment from "../../Front-End/payment";
+import { createRoutesFromChildren, Link, useNavigate } from "react-router-dom";
+import { BiChevronRightCircle } from "react-icons/bi";
 import { ReceiptData } from "../../components/Interface";
 
 export default function Receipt() {
@@ -20,33 +21,57 @@ export default function Receipt() {
         });
     } catch (error) {}
   }, []);
+  if (receiptData == undefined){
+      return <div>loading</div>
+  }   let priceFormat = Intl.NumberFormat("en-ng", {
+      style: "currency",
+      currency: "NGN",
+      currencyDisplay: "narrowSymbol",
+    }).format(receiptData?.TotalPrice);
+    
+
+   let DateFormat = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.Date_of_payment));
+   let DateFormat1 = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.start));
+   let DateFormat2 = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.end));
+
   return (
     <div className="Receipt">
       <div className="Receipt1">
         <h1>Receipt of Payment</h1>
-        <h4>Date of Payment</h4>
+        <h4>Date of Payment: {DateFormat}</h4>
       </div>
       <div className="Receipt2">
         <div className="Receipt3">
           {" "}
           <h1>Personal Data</h1>
-          <h4>First Name: {receiptData?.customer.firstName}</h4>
-          <h4>Last Name: {receiptData?.customer.lastName}</h4>
-          <div>UsersId: {receiptData?.customer._id}</div>
-          <div>Email: {receiptData?.customer.email}</div>
-          <div>Phone No: {receiptData?.customer.phone}</div>
+          <h4>First Name: {receiptData.customer.firstName}</h4>
+          <h4>Last Name: {receiptData.customer.lastName}</h4>
+          <div>UsersId: {receiptData.customer._id}</div>
+          <div>Email: {receiptData.customer.email}</div>
+          <div>Phone No: {receiptData.customer.phone}</div>
         </div>
         <div className="Receipt3">
           {" "}
           <h1>Payment Data</h1>
-          <div>RoomId: {receiptData?._id}</div>
-          <div>Number of Occupants: {receiptData?.occupants}</div>
-          <div> Type of Room: {receiptData?.roomType}</div>
-          <div>Starting Date: {receiptData?.start}</div>
-          <div>Ending Date: {receiptData?.end}</div>
+          <div>RoomId: {receiptData._id}</div>
+          <div>Number of Occupants: {receiptData.occupants}</div>
+          <div> Type of Room: {receiptData.roomType}</div>
+          <div>Starting Date: {DateFormat1}</div>
+          <div>Ending Date: {DateFormat2}</div>
+          <div>Card Number: **** **** **** {receiptData.cardNumber}</div>
         </div>
       </div>
-      <div className="Total">Total Amount Paid: {receiptData?.TotalPrice}</div>
+      <div className="Total">Total Amount Paid: {priceFormat}</div>
+      <div className="bottomForm">
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <div className="FirstDiv">
+              Back{" "}
+              <div className="circle">
+                <BiChevronRightCircle />
+              </div>
+            </div>
+          </Link>
+        </div>
     </div>
   );
 }

@@ -5,7 +5,6 @@ import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
 import { useEffect } from "react";
 import { Room } from "../components/Interface";
-import Booking from "../Front-End/booking";
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -28,7 +27,7 @@ app.use("/payment", express.static("dist"));
 app.use("/receipt", express.static("dist"));
 app.use("/src", express.static("src"));
 
-app.get("/roomsData", (req, res) => {
+app.get("/roomsData", (_req, res) => {
   let cursor = client.db("HotelDatabase").collection("RoomsData").find({});
   let RoomsData: Roomss[] = [];
   cursor
@@ -41,7 +40,7 @@ app.get("/roomsData", (req, res) => {
     });
   // console.log(cursor)
 });
-app.get("/getBookings", (req, res) => {
+app.get("/getBookings", (_req, res) => {
   let cursor = client.db("HotelDatabase").collection("bookings").find({});
   let BookingsData: Room[] = [];
   cursor
@@ -163,11 +162,11 @@ app.get("/getPayment", (req, res) => {
       let data = result[0];
       data.customer = data.BookingReference[0];
       delete data.customer.password;
-      delete data.BookingReference
+      delete data.BookingReference;
 
-      res.json(data );
+      res.json(data);
     })
-    .catch((error) => {
+    .catch((_error) => {
       res.sendStatus(500);
     });
 });
@@ -212,6 +211,46 @@ app.post("/updateBookings", (req, res) => {
       console.log(error);
       res.sendStatus(500);
     });
+});
+app.post("/updatePayments", (req, res) => {
+  let bookingId: string = req.body.bookingParam;
+  let paymentDate:string = req.body.dateOfPayment;
+  let cardNumber: string = req.body.cardNumber;
+  
+  client
+    .db("HotelDatabase")
+    .collection("bookings")
+    .updateOne(
+      { _id: new ObjectId(bookingId) },
+      {
+        $set: {
+          Date_of_payment:paymentDate,
+          cardNumber: cardNumber
+        },
+      }
+    )
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500);
+    });
+});
+//LOGIN
+app.post( "/staff", (req, res)=>{
+  let userId = req.query.email;
+  let passWord = req.body.password;
+
+  if (userId == null || typeof userId != "string" && passWord == passWord) {
+    res.sendStatus(400);
+    return;
+  }
+  let cursor = client
+    .db("HotelDatabase")
+    .collection("bookings")
+    
+  // console.log(cursor)
 });
 
 app.listen(port, () => {
