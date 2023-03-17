@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { FormEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 import HomeImg from "../img/home1.jpg"
 // import "../index1.css";
@@ -7,10 +7,19 @@ import HomeImg from "../img/home1.jpg"
 export default function Login() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  let navigate = useNavigate();
 
-  let submit = (email: string, password: string) =>{
-    email = "onyex896@gmail.com"
-    password = "123"
+
+  let submit = (e: FormEvent) =>{
+   let Email = "onyex896@gmail.com"
+    let Password = "123"
+    if (Email == email && Password == password){
+      navigate('/panel');
+    } 
+    else{
+      alert("Invalid Credentials")
+    }
+ 
   }
   return (
     <>
@@ -35,16 +44,14 @@ export default function Login() {
           name="password"
           required
         />
-        <div className="bottomForm">
-          <Link to="/payment" style={{ textDecoration: "none" }}>
+        <button className="bottomForm" onClick={submit}>
             <div className="FirstDiv">
-              Proceed to Payment{" "}
+              Login{" "}
               <div className="circle">
                 <BiChevronRightCircle />
               </div>
             </div>
-          </Link>
-        </div>
+        </button>
       </form>
       <Link to="/" style={{ textDecoration: "none" }}>
         <div className="FirstDiv">

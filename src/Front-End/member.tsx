@@ -60,7 +60,7 @@ export default function Form() {
           <h2>Marvy's Place</h2>
           <Link to="/login" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
-              Member Login{" "}
+              Staff Login{" "}
               <div className="circle">
                 <BiChevronRightCircle />
               </div>

@@ -25,6 +25,9 @@ app.use("/member", express.static("dist"));
 app.use("/about", express.static("dist"));
 app.use("/payment", express.static("dist"));
 app.use("/receipt", express.static("dist"));
+app.use("/panel", express.static("dist"));
+app.use("/customers", express.static("dist"));
+app.use("/editRooms", express.static("dist"));
 app.use("/src", express.static("src"));
 
 app.get("/roomsData", (_req, res) => {

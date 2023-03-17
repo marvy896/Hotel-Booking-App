@@ -20,9 +20,9 @@ export default function Nav() {
           About Us
         </Link>
       </ul>
-      <Link to="/member" style={{ textDecoration: "none" }}>
+      <Link to="/login" style={{ textDecoration: "none" }}>
         <div className="FirstDiv">
-          <div>Join Member</div>
+          <div>Staff Login</div>
         </div>
       </Link>
     </div>
