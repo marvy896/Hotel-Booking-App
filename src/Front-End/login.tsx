@@ -7,6 +7,11 @@ import HomeImg from "../img/home1.jpg"
 export default function Login() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+
+  let submit = (email: string, password: string) =>{
+    email = "onyex896@gmail.com"
+    password = "123"
+  }
   return (
     <>
     <div className="member">
