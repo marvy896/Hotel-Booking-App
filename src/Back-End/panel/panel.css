@@ -85,7 +85,7 @@ body {
     position: relative;
     top:0;
     bottom: 0;
-    height: 80vh;
+    height: 70vh;
     left: 0;
     background: #fff;
     width: 300px;
@@ -118,10 +118,47 @@ body {
     color: brown;
 }
 .list{
+    margin: 5px;
+    background-color: burlywood;
+    padding: 5px;
     display: flex;
     flex-direction: row;
     height: auto;
-    /* width: auto; */
+    width: auto;
     border: 3px solid green;
     border-radius: 10px;
+    justify-content: space-between;
+}
+.list11{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0%;
+    margin: 0%;
+}
+.list1{
+    display: grid;
+    grid-template-columns: repeat(auto);
+    border: 2px solid green;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    margin: 5px;
+}
+.list11 button{
+    border: 2px solid black;
+    width: 30px;
+    height: 20px;
+    border-radius: 5px;
+}
+.listPanel{
+    margin: 0%;
+    padding: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
 }

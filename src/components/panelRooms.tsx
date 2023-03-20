@@ -8,14 +8,17 @@ export default function PanelRooms({
   Image,
   Description,
 }: Room) {
-
   return (
-    <div className="list1">List of Available Rooms
-      <img width = {40} style={{ backgroundImage: `url(${Image})`}}></img>
-      <h4>{NameOfRoom}</h4>
-      <p>{Description}</p>
-      <p>{Price}</p>
-      <p>{RoomId}</p>
+    <div className="list11">
+      <div className="list1">
+        <img width={40} style={{ backgroundImage: `url(${Image})` }}></img>
+        <h4>Name: {NameOfRoom}</h4>
+        <p>Description: {Description}</p>
+        <p>Price: #{Price}</p>
+        <p>RoomId: {RoomId}</p>
+      </div>
+      <button>Edit</button>
+      <button>Add</button>
     </div>
   );
 }

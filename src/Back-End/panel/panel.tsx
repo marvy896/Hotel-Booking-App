@@ -58,6 +58,9 @@ export default function Panel() {
         });
     } catch (error) {}
   }, []);
+  if (cstDetails == undefined) {
+    return <div>loading....</div>;
+  }
   return (
     <div className="Panel">
       <div className="Panel1">
@@ -78,7 +81,8 @@ export default function Panel() {
         </div>
       </div>
       <div className="list">
-        <div>
+        <div className="listPanel">
+          <h2>Available Rooms</h2>
           {room &&
             room.map((item) => (
               <div key={item.RoomId}>
@@ -86,11 +90,11 @@ export default function Panel() {
               </div>
             ))}
         </div>
-        <div>
+        <div className="listPanel">
           <h2>Confirmed Bookings</h2>
-          {cstDetails && 
-          cstDetails.map((item) => (
-              <div key={item._id} >
+          {cstDetails &&
+            cstDetails.map((item) => (
+              <div key={item._id}>
                 <PanelCustomers {...item} />
               </div>
             ))}
