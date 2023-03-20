@@ -48,6 +48,7 @@ export default function Booking() {
     } catch (error) {}
   }, []);
 
+
   let submit = (e: FormEvent) => {
     e.preventDefault();
     fetch("/bookRooms", {

@@ -2,6 +2,10 @@ import React, { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 
+
+
+
+
 export default function EditRooms() {
   let [NameOfRoom, setNameOfRoom] = useState("");
   let [img, setImg] = useState("");

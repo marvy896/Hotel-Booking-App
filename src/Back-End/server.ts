@@ -1,10 +1,10 @@
-import express, { response } from "express";
+import express, { json, response } from "express";
 import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
 import { MongoClient, ObjectId } from "mongodb";
 import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
 import { useEffect } from "react";
-import { Room } from "../components/Interface";
+import { ReceiptData, Room } from "../components/Interface";
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -42,6 +42,49 @@ app.get("/roomsData", (_req, res) => {
       res.status(200).json({ RoomsData });
     });
   // console.log(cursor)
+});
+app.get("/getPayments", (_req, res) => {
+  let cursor = client.db("HotelDatabase").collection("bookings").find({});
+  let getDetails: ReceiptData[] = [];
+  cursor
+    .forEach((a) => {
+      console.log(a);
+      getDetails.push(a as unknown as ReceiptData);
+    })
+    .then(() => {
+      res.status(200).json(getDetails);
+    });
+  // console.log(cursor)
+});
+app.get("/getPaymentData", (req, res) => {
+  client
+    .db("HotelDatabase")
+    .collection("bookings")
+    .aggregate([
+      { $match: { "Date_of_payment": {$exists: true}} },
+      {
+        $lookup: {
+          from: "Customer",
+          localField: "customer",
+          foreignField: "_id",
+          as: "joinedData",
+        },
+      },
+    ])
+    .toArray()
+    .then((result) => {
+      for (let data of result) {
+        data.customer = data.joinedData[0];
+        if(data.customer != undefined){
+          delete data.customer.password;
+        }
+        delete data.joinedData;
+      }
+      res.json(result);
+    })
+    .catch((_error) => {
+      res.sendStatus(500);
+    });
 });
 app.get("/getBookings", (_req, res) => {
   let cursor = client.db("HotelDatabase").collection("bookings").find({});
@@ -217,9 +260,9 @@ app.post("/updateBookings", (req, res) => {
 });
 app.post("/updatePayments", (req, res) => {
   let bookingId: string = req.body.bookingParam;
-  let paymentDate:string = req.body.dateOfPayment;
+  let paymentDate: string = req.body.dateOfPayment;
   let cardNumber: string = req.body.cardNumber;
-  
+
   client
     .db("HotelDatabase")
     .collection("bookings")
@@ -227,8 +270,8 @@ app.post("/updatePayments", (req, res) => {
       { _id: new ObjectId(bookingId) },
       {
         $set: {
-          Date_of_payment:paymentDate,
-          cardNumber: cardNumber
+          Date_of_payment: paymentDate,
+          cardNumber: cardNumber,
         },
       }
     )
@@ -241,18 +284,16 @@ app.post("/updatePayments", (req, res) => {
     });
 });
 //LOGIN
-app.post( "/staff", (req, res)=>{
+app.post("/staff", (req, res) => {
   let userId = req.query.email;
   let passWord = req.body.password;
 
-  if (userId == null || typeof userId != "string" && passWord == passWord) {
+  if (userId == null || (typeof userId != "string" && passWord == passWord)) {
     res.sendStatus(400);
     return;
   }
-  let cursor = client
-    .db("HotelDatabase")
-    .collection("bookings")
-    
+  let cursor = client.db("HotelDatabase").collection("bookings");
+
   // console.log(cursor)
 });
 

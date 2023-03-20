@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { createRoutesFromChildren, Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
-import { ReceiptData } from "../../components/Interface";
+import { ReceiptData } from '../../components/Interface';
 
 export default function Receipt() {
   let [receiptData, setReceiptData] = useState<ReceiptData>();
@@ -31,8 +31,8 @@ export default function Receipt() {
     
 
    let DateFormat = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.Date_of_payment));
-   let DateFormat1 = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.start));
-   let DateFormat2 = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.end));
+   let startDay = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.start));
+   let endDay = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.end));
 
   return (
     <div className="Receipt">
@@ -56,8 +56,8 @@ export default function Receipt() {
           <div>RoomId: {receiptData._id}</div>
           <div>Number of Occupants: {receiptData.occupants}</div>
           <div> Type of Room: {receiptData.roomType}</div>
-          <div>Starting Date: {DateFormat1}</div>
-          <div>Ending Date: {DateFormat2}</div>
+          <div>Starting Date: {startDay}</div>
+          <div>Ending Date: {endDay}</div>
           <div>Card Number: **** **** **** {receiptData.cardNumber}</div>
         </div>
       </div>
