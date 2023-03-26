@@ -11,7 +11,7 @@ export default function PanelRooms({
   return (
     <div className="list11">
       <div className="list1">
-        <img width={40} style={{ backgroundImage: `url(${Image})` }}></img>
+        <img width={100} style={{ backgroundImage: `url(${Image})` }}></img>
         <h4>Name: {NameOfRoom}</h4>
         <p>Description: {Description}</p>
         <p>Price: #{Price}</p>

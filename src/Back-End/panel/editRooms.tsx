@@ -8,10 +8,74 @@ import { BiChevronRightCircle } from "react-icons/bi";
 
 export default function EditRooms() {
   let [NameOfRoom, setNameOfRoom] = useState("");
-  let [img, setImg] = useState("");
+  let [Image, setImage] = useState<File>();
   let [Price, setPrice] = useState("");
   let [Description, setDescription] = useState("");
-  let [roomId, setRoomId] = useState("");
+  let [RoomId, setRoomId] = useState("");
+
+
+  let [upNameOfRoom, setUpNameOfRoom] = useState("");
+  let [upImage, setUpImg] = useState("");
+  let [upPrice, setUpPrice] = useState("");
+  let [upDescription, setUpDescription] = useState("");
+  let [uproomId, setUpRoomId] = useState("");
+
+
+  let createRoom = (e: FormEvent) => {
+    e.preventDefault();
+  let formData = new FormData
+  if (Image == undefined){
+    return
+  }
+  formData.append("Image", Image)
+  formData.append("NameOfRoom", NameOfRoom);
+  formData.append("Price", Price);
+  formData.append("Description", Description);
+  formData.append("RoomId", RoomId);
+
+      fetch("/createRooms", {
+        headers: {
+          // "Content-Type": "application/json",
+          "enctype": "multipart/form-data"
+        },
+        method: "POST",
+        body: formData,
+      }).then((res) => res.json())
+      .then(({ id }) => {
+        console.log(id);
+        console.log(NameOfRoom, Price, Description, Image, RoomId);
+        alert("Room created Succesfully");
+        return;
+      });
+  };
+  let updateRoom = (e: FormEvent) => {
+    e.preventDefault();
+    let formData = new FormData
+  if (Image == undefined){
+    return
+  }
+  formData.append("upImage", upImage)
+  formData.append("upNameOfRoom", upNameOfRoom);
+  formData.append("upPrice", upPrice);
+  formData.append("upDescription", upDescription);
+  formData.append("uproomId", uproomId);
+
+      fetch("/updateRooms", {
+        headers: {
+          // "Content-Type": "application/json",
+          "enctype": "multipart/form-data"
+        },
+        method: "POST",
+        body: formData
+      }).then((res) => res.json())
+      .then(({ id }) => {
+        console.log(id);
+        console.log(uproomId, upNameOfRoom, upPrice, upDescription, upImage);
+        alert("Room created Succesfully");
+        return;
+      });
+  };
+
   return (
     <div className="Panel">
       <div className="Panel1">
@@ -23,6 +87,14 @@ export default function EditRooms() {
             Create Rooms
             <form>
               <input
+                value={RoomId}
+                onChange={(e) => setRoomId(e.target.value)}
+                placeholder="RoomId"
+                type="text"
+                name="RoomId"
+                required
+              />
+              <input
                 value={NameOfRoom}
                 onChange={(e) => setNameOfRoom(e.target.value)}
                 placeholder="Name of the Room"
@@ -47,52 +119,60 @@ export default function EditRooms() {
                 required
               />
               <input
-                value={img}
-                onChange={(e) => setImg(e.target.value)}
+                // path={img}
+                onChange={(e) => setImage(e.target.files? e.target.files[0]: undefined)}
                 placeholder="Upload Photo"
-                type="text"
+                type="file"
                 name="Photo"
                 required
               />
-              <button>Create</button>
+              <button onClick={createRoom}>Create</button>
             </form>
           </div>
           <div>
             Update Rooms
             <form>
+            <input
+                value={uproomId}
+                onChange={(e) => setUpRoomId(e.target.value)}
+                placeholder="Please put in the roomId"
+                type="text"
+                name="RoomId"
+                required
+              />
               <input
-                value={NameOfRoom}
-                onChange={(e) => setNameOfRoom(e.target.value)}
+                value={upNameOfRoom}
+                onChange={(e) => setUpNameOfRoom(e.target.value)}
                 placeholder="Name of the Room"
                 type="text"
                 name="NameOfRoom"
                 required
               />
               <input
-                value={Price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={upPrice}
+                onChange={(e) => setUpPrice(e.target.value)}
                 placeholder="Set Price"
                 type="text"
                 name="Price"
                 required
               />
               <input
-                value={Description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={upDescription}
+                onChange={(e) => setUpDescription(e.target.value)}
                 placeholder="Description"
                 type="text"
                 name="Description"
                 required
               />
               <input
-                value={img}
-                onChange={(e) => setImg(e.target.value)}
+                value={upImage}
+                onChange={(e) => setUpImg(e.target.value)}
                 placeholder="Upload Photo"
-                type="text"
+                type="file"
                 name="Photo"
                 required
               />
-              <button>Update Room</button>
+              <button onClick={updateRoom}>Update Room</button>
             </form>
           </div>
         </div>
@@ -101,10 +181,10 @@ export default function EditRooms() {
             Remove Rooms
             <form>
               <input
-                value={roomId}
+                value={RoomId}
                 onChange={(e) => setRoomId(e.target.value)}
                 placeholder="Room Id"
-                type="text"
+                type="number"
                 name="Description"
                 required
               />

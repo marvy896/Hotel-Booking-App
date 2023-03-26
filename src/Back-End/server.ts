@@ -5,6 +5,9 @@ import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
 import { useEffect } from "react";
 import { ReceiptData, Room } from "../components/Interface";
+import multer from "multer";
+import bodyParser from "body-parser";
+
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -12,8 +15,20 @@ const client = new MongoClient("mongodb://0.0.0.0:27017", {
 
 client.on("commandStarted", (started) => console.log(started));
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("dist"));
 app.set("Access-Control-Allow-Origin", "*");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+// Middleware
+const upload = multer({ storage: storage });
 
 const port = 4000;
 app.use(express.json());
@@ -29,7 +44,7 @@ app.use("/panel", express.static("dist"));
 app.use("/customers", express.static("dist"));
 app.use("/editRooms", express.static("dist"));
 app.use("/src", express.static("src"));
-
+app.use("/uploads", express.static("uploads"));
 app.get("/roomsData", (_req, res) => {
   let cursor = client.db("HotelDatabase").collection("RoomsData").find({});
   let RoomsData: Roomss[] = [];
@@ -61,7 +76,7 @@ app.get("/getPaymentData", (req, res) => {
     .db("HotelDatabase")
     .collection("bookings")
     .aggregate([
-      { $match: { "Date_of_payment": {$exists: true}} },
+      { $match: { Date_of_payment: { $exists: true } } },
       {
         $lookup: {
           from: "Customer",
@@ -75,7 +90,7 @@ app.get("/getPaymentData", (req, res) => {
     .then((result) => {
       for (let data of result) {
         data.customer = data.joinedData[0];
-        if(data.customer != undefined){
+        if (data.customer != undefined) {
           delete data.customer.password;
         }
         delete data.joinedData;
@@ -295,6 +310,81 @@ app.post("/staff", (req, res) => {
   let cursor = client.db("HotelDatabase").collection("bookings");
 
   // console.log(cursor)
+});
+
+//CREATE ROOMS AND CUSTOMERS
+app.post("/createCustomers", async (req, res) => {
+  let data = req.body;
+  if (
+    data.firstName &&
+    data.lastName &&
+    data.email &&
+    data.phone &&
+    data.password
+  ) {
+    let result = await client
+      .db("HotelDatabase")
+      .collection("Customer")
+      .insertOne(data);
+    console.log(data);
+    res.status(300);
+    res.json({ customerID: result.insertedId }).end();
+  } else {
+    res.status(400).end();
+  }
+});
+app.post("/createRooms",upload.single("Image"), async (req, res) => {
+  let data = req.body;
+  data.Image = req.file? "/"+req.file.path.replace("\\", "/"):undefined
+  data.Price = parseInt(data.Price )
+  data.RoomId = parseInt(data.RoomId)
+  if (
+    data.NameOfRoom &&
+    data.Price &&
+    data.Description &&
+    data.Image &&
+    data.RoomId
+  ) {
+    let result = await client
+      .db("HotelDatabase")
+      .collection("RoomsData")
+      .insertOne(data);
+    console.log(data);
+    res.status(200);
+    res.json({ roomId: result.insertedId }).end();
+  } else {
+    res.status(400).end();
+  }
+});
+//UPDATE FOR ROOMS AND CUSTOMERS
+app.post("/updateRooms",upload.single("upImage"), (req, res) => {
+  let roomId = parseInt(req.body.uproomId);
+  let roomName: string = req.body.upNameOfRoom;
+  let price = parseInt(req.body.upPrice) ;
+  let description: string = req.body.upDescription;
+   let upload = req.file? "/"+req.file.path.replace("\\", "/"):undefined 
+  
+  client
+    .db("HotelDatabase")
+    .collection("RoomsData")
+    .updateOne(
+      { RoomId: roomId },
+      {
+        $set: {
+          NameOfRoom: roomName,
+          Price: price,
+          Description: description,
+          Image: upload,
+        },
+      }
+    )
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((error) => {
+      console.log(error);
+      res.sendStatus(500);
+    });
 });
 
 app.listen(port, () => {
