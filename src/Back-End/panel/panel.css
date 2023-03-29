@@ -149,8 +149,9 @@ body {
     margin: 5px;
 }
 .list11 button{
+    padding: 2px;
     border: 2px solid black;
-    width: 30px;
+    width: auto;
     height: 20px;
     border-radius: 5px;
 }

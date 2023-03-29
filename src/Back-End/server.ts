@@ -8,7 +8,6 @@ import { ReceiptData, Room } from "../components/Interface";
 import multer from "multer";
 import bodyParser from "body-parser";
 
-
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
 });
@@ -333,11 +332,11 @@ app.post("/createCustomers", async (req, res) => {
     res.status(400).end();
   }
 });
-app.post("/createRooms",upload.single("Image"), async (req, res) => {
+app.post("/createRooms", upload.single("Image"), async (req, res) => {
   let data = req.body;
-  data.Image = req.file? "/"+req.file.path.replace("\\", "/"):undefined
-  data.Price = parseInt(data.Price )
-  data.RoomId = parseInt(data.RoomId)
+  data.Image = req.file ? "/" + req.file.path.replace("\\", "/") : undefined;
+  data.Price = parseInt(data.Price);
+  data.RoomId = parseInt(data.RoomId);
   if (
     data.NameOfRoom &&
     data.Price &&
@@ -357,13 +356,13 @@ app.post("/createRooms",upload.single("Image"), async (req, res) => {
   }
 });
 //UPDATE FOR ROOMS AND CUSTOMERS
-app.post("/updateRooms",upload.single("upImage"), (req, res) => {
+app.post("/updateRooms", upload.single("upImage"), (req, res) => {
   let roomId = parseInt(req.body.uproomId);
   let roomName: string = req.body.upNameOfRoom;
-  let price = parseInt(req.body.upPrice) ;
+  let price = parseInt(req.body.upPrice);
   let description: string = req.body.upDescription;
-   let upload = req.file? "/"+req.file.path.replace("\\", "/"):undefined 
-  
+  let upload = req.file ? "/" + req.file.path.replace("\\", "/") : undefined;
+
   client
     .db("HotelDatabase")
     .collection("RoomsData")
@@ -386,6 +385,26 @@ app.post("/updateRooms",upload.single("upImage"), (req, res) => {
       res.sendStatus(500);
     });
 });
+//Delete Room
+app.post("/deleteRoom", (req, res) => {
+  let roomId = parseInt(req.body.RoomId);
+  if (roomId) {
+    client
+      .db("HotelDatabase")
+      .collection("RoomsData")
+      .deleteMany({ RoomId: roomId });
+    res.status(200);
+    res.json({ roomId }).end();
+  } else {
+    res.status(400).end();
+  }
+});
+//     .catch((error) => {
+//       console.log(error);
+//       res.sendStatus(500).end()
+//     })
+//     res.sendStatus(200).end();
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

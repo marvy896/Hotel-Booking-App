@@ -2,10 +2,6 @@ import React, { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
 
-
-
-
-
 export default function EditRooms() {
   let [NameOfRoom, setNameOfRoom] = useState("");
   let [Image, setImage] = useState<File>();
@@ -13,69 +9,88 @@ export default function EditRooms() {
   let [Description, setDescription] = useState("");
   let [RoomId, setRoomId] = useState("");
 
-
   let [upNameOfRoom, setUpNameOfRoom] = useState("");
   let [upImage, setUpImg] = useState("");
   let [upPrice, setUpPrice] = useState("");
   let [upDescription, setUpDescription] = useState("");
   let [uproomId, setUpRoomId] = useState("");
 
-
   let createRoom = (e: FormEvent) => {
     e.preventDefault();
-  let formData = new FormData
-  if (Image == undefined){
-    return
-  }
-  formData.append("Image", Image)
-  formData.append("NameOfRoom", NameOfRoom);
-  formData.append("Price", Price);
-  formData.append("Description", Description);
-  formData.append("RoomId", RoomId);
+    let formData = new FormData();
+    if (Image == undefined) {
+      return;
+    }
+    formData.append("Image", Image);
+    formData.append("NameOfRoom", NameOfRoom);
+    formData.append("Price", Price);
+    formData.append("Description", Description);
+    formData.append("RoomId", RoomId);
 
-      fetch("/createRooms", {
-        headers: {
-          // "Content-Type": "application/json",
-          "enctype": "multipart/form-data"
-        },
-        method: "POST",
-        body: formData,
-      }).then((res) => res.json())
+    fetch("/createRooms", {
+      headers: {
+        // "Content-Type": "application/json",
+        enctype: "multipart/form-data",
+      },
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
       .then(({ id }) => {
         console.log(id);
         console.log(NameOfRoom, Price, Description, Image, RoomId);
-        alert("Room created Succesfully");
+        alert( `${NameOfRoom} created Succesfully`);
         return;
       });
   };
+
   let updateRoom = (e: FormEvent) => {
     e.preventDefault();
-    let formData = new FormData
-  if (Image == undefined){
-    return
-  }
-  formData.append("upImage", upImage)
-  formData.append("upNameOfRoom", upNameOfRoom);
-  formData.append("upPrice", upPrice);
-  formData.append("upDescription", upDescription);
-  formData.append("uproomId", uproomId);
+    let formData = new FormData();
+    if (Image == undefined) {
+      return;
+    }
+    formData.append("upImage", upImage);
+    formData.append("upNameOfRoom", upNameOfRoom);
+    formData.append("upPrice", upPrice);
+    formData.append("upDescription", upDescription);
+    formData.append("uproomId", uproomId);
 
-      fetch("/updateRooms", {
-        headers: {
-          // "Content-Type": "application/json",
-          "enctype": "multipart/form-data"
-        },
-        method: "POST",
-        body: formData
-      }).then((res) => res.json())
+    fetch("/updateRooms", {
+      headers: {
+        // "Content-Type": "application/json",
+        enctype: "multipart/form-data",
+      },
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
       .then(({ id }) => {
         console.log(id);
         console.log(uproomId, upNameOfRoom, upPrice, upDescription, upImage);
-        alert("Room created Succesfully");
+        alert(`${upNameOfRoom} updated Succesfully`);
         return;
       });
   };
 
+  let deleteRoom = (e: FormEvent) => {
+    e.preventDefault();
+  
+    fetch("/deleteRoom", {
+      headers: {
+        "Content-Type": "application/json",
+        // enctype: "multipart/form-data",
+      },
+      method: "POST",
+      body:JSON.stringify({ RoomId}),
+    })
+      .then((res) => res.json())
+      .then(({ id }) => {
+        console.log(id);
+        alert("Room Deleted Succesfully");
+        return;
+      });
+  };
   return (
     <div className="Panel">
       <div className="Panel1">
@@ -120,7 +135,9 @@ export default function EditRooms() {
               />
               <input
                 // path={img}
-                onChange={(e) => setImage(e.target.files? e.target.files[0]: undefined)}
+                onChange={(e) =>
+                  setImage(e.target.files ? e.target.files[0] : undefined)
+                }
                 placeholder="Upload Photo"
                 type="file"
                 name="Photo"
@@ -132,7 +149,7 @@ export default function EditRooms() {
           <div>
             Update Rooms
             <form>
-            <input
+              <input
                 value={uproomId}
                 onChange={(e) => setUpRoomId(e.target.value)}
                 placeholder="Please put in the roomId"
@@ -184,11 +201,11 @@ export default function EditRooms() {
                 value={RoomId}
                 onChange={(e) => setRoomId(e.target.value)}
                 placeholder="Room Id"
-                type="number"
-                name="Description"
+                type="text"
+                name="Enter the room ID"
                 required
               />
-              <button>Remove</button>
+              <button onClick={deleteRoom }>Remove</button>
             </form>
           </div>
           <div>Retrieve Rooms</div>
@@ -205,4 +222,3 @@ export default function EditRooms() {
     </div>
   );
 }
-

@@ -61,6 +61,8 @@ export default function Panel() {
   if (cstDetails == undefined) {
     return <div>loading....</div>;
   }
+
+  
   return (
     <div className="Panel">
       <div className="Panel1">
