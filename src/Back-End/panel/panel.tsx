@@ -61,8 +61,11 @@ export default function Panel() {
   if (cstDetails == undefined) {
     return <div>loading....</div>;
   }
+  let onClickAddRoom =() => {
+    let path = `/createRooms`;
+    navigate(path);
+  }
 
-  
   return (
     <div className="Panel">
       <div className="Panel1">
@@ -91,6 +94,7 @@ export default function Panel() {
                 <PanelRooms {...item} />
               </div>
             ))}
+             <button onClick={ onClickAddRoom}>Add Room</button>
         </div>
         <div className="listPanel">
           <h2>Confirmed Bookings</h2>

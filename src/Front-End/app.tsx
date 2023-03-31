@@ -29,7 +29,8 @@ export default function App() {
             <Route path='/payment' element={<Payment/>} />
             <Route path='/receipt' element={<Receipt/>} />
             <Route path='/customers' element={<Customers/>} />
-            <Route path='/editRooms' element={<EditRooms/>} />
+            <Route path='/editRooms/:id' element={<EditRooms/>} />
+            <Route path='/createRooms' element={<EditRooms/>} />
             <Route path='/panel' element={<Panel/>} />
             <Route path='/' element={<Home/>}/>
         </Routes>

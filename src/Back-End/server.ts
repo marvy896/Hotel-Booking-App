@@ -41,9 +41,12 @@ app.use("/payment", express.static("dist"));
 app.use("/receipt", express.static("dist"));
 app.use("/panel", express.static("dist"));
 app.use("/customers", express.static("dist"));
-app.use("/editRooms", express.static("dist"));
+app.use("/editRooms/:id", express.static("dist"));
+app.use("/createRooms", express.static("dist"));
 app.use("/src", express.static("src"));
 app.use("/uploads", express.static("uploads"));
+
+
 app.get("/roomsData", (_req, res) => {
   let cursor = client.db("HotelDatabase").collection("RoomsData").find({});
   let RoomsData: Roomss[] = [];

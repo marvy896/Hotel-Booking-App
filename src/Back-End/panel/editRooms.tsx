@@ -1,6 +1,7 @@
-import React, { FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { FormEvent, useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { BiChevronRightCircle } from "react-icons/bi";
+import { Roomss } from "../../components/listRooms";
 
 export default function EditRooms() {
   let [NameOfRoom, setNameOfRoom] = useState("");
@@ -9,11 +10,30 @@ export default function EditRooms() {
   let [Description, setDescription] = useState("");
   let [RoomId, setRoomId] = useState("");
 
-  let [upNameOfRoom, setUpNameOfRoom] = useState("");
-  let [upImage, setUpImg] = useState("");
-  let [upPrice, setUpPrice] = useState("");
-  let [upDescription, setUpDescription] = useState("");
-  let [uproomId, setUpRoomId] = useState("");
+  // let [upNameOfRoom, setUpNameOfRoom] = useState("");
+  // let [upImage, setUpImg] = useState("");
+  // let [upPrice, setUpPrice] = useState("");
+  // let [upDescription, setUpDescription] = useState("");
+  // let [uproomId, setUpRoomId] = useState("");
+  let urlRoomId = useParams().id;
+  useEffect(() => {
+    if (urlRoomId != undefined) {
+      fetch("/roomsData")
+        .then((res) => res.json())
+        .then(({ RoomsData }: { RoomsData: Roomss[] }) => {
+          console.log(RoomsData);
+          let room = RoomsData.find((room) => room.RoomId.toString() == urlRoomId);
+          if (room == undefined) {
+            throw new Error("Room Doesn't Exist");
+          }
+          setRoomId(room.RoomId.toString());
+          setPrice(room.Price.toString());
+          setNameOfRoom(room.NameOfRoom);
+          setDescription(room.Description);
+          // setImage(room.Image);
+        });
+    }
+  }, [urlRoomId]);
 
   let createRoom = (e: FormEvent) => {
     e.preventDefault();
@@ -39,7 +59,7 @@ export default function EditRooms() {
       .then(({ id }) => {
         console.log(id);
         console.log(NameOfRoom, Price, Description, Image, RoomId);
-        alert( `${NameOfRoom} created Succesfully`);
+        alert(`${NameOfRoom} created Succesfully`);
         return;
       });
   };
@@ -50,11 +70,14 @@ export default function EditRooms() {
     if (Image == undefined) {
       return;
     }
-    formData.append("upImage", upImage);
-    formData.append("upNameOfRoom", upNameOfRoom);
-    formData.append("upPrice", upPrice);
-    formData.append("upDescription", upDescription);
-    formData.append("uproomId", uproomId);
+    formData.append("upImage", Image);
+    formData.append("upNameOfRoom", NameOfRoom);
+    formData.append("upPrice", Price);
+    formData.append("upDescription", Description);
+    if (urlRoomId == undefined) {
+      throw new Error("no roomID");
+    }
+    formData.append("uproomId", urlRoomId);
 
     fetch("/updateRooms", {
       headers: {
@@ -67,22 +90,22 @@ export default function EditRooms() {
       .then((res) => res.json())
       .then(({ id }) => {
         console.log(id);
-        console.log(uproomId, upNameOfRoom, upPrice, upDescription, upImage);
-        alert(`${upNameOfRoom} updated Succesfully`);
+        console.log(urlRoomId, NameOfRoom, Price, Description, Image);
+        alert(`${NameOfRoom} updated Succesfully`);
         return;
       });
   };
 
   let deleteRoom = (e: FormEvent) => {
     e.preventDefault();
-  
+
     fetch("/deleteRoom", {
       headers: {
         "Content-Type": "application/json",
         // enctype: "multipart/form-data",
       },
       method: "POST",
-      body:JSON.stringify({ RoomId}),
+      body: JSON.stringify({ RoomId }),
     })
       .then((res) => res.json())
       .then(({ id }) => {
@@ -99,7 +122,11 @@ export default function EditRooms() {
       <div className="custom2">
         <div className="createDiv">
           <div>
-            Create Rooms
+            {urlRoomId != undefined ? (
+              <div>Update Rooms</div>
+            ) : (
+              <div> Create Rooms </div>
+            )}
             <form>
               <input
                 value={RoomId}
@@ -143,10 +170,14 @@ export default function EditRooms() {
                 name="Photo"
                 required
               />
-              <button onClick={createRoom}>Create</button>
+              {urlRoomId != undefined ? (
+                <button onClick={updateRoom}>Update Room</button>
+              ) : (
+                <button onClick={createRoom}>Create</button>
+              )}
             </form>
           </div>
-          <div>
+          {/* <div>
             Update Rooms
             <form>
               <input
@@ -191,9 +222,9 @@ export default function EditRooms() {
               />
               <button onClick={updateRoom}>Update Room</button>
             </form>
-          </div>
+          </div> */}
         </div>
-        <div className="createDiv">
+        {/* <div className="createDiv">
           <div>
             Remove Rooms
             <form>
@@ -205,11 +236,11 @@ export default function EditRooms() {
                 name="Enter the room ID"
                 required
               />
-              <button onClick={deleteRoom }>Remove</button>
+              <button onClick={deleteRoom}>Remove</button>
             </form>
           </div>
           <div>Retrieve Rooms</div>
-        </div>
+        </div> */}
       </div>
       <Link to="/login" style={{ textDecoration: "none" }}>
         <div className="FirstDiv">

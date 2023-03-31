@@ -29,7 +29,7 @@ export default function PanelRooms({
   };
   let navigate = useNavigate();
   let changeRoute = () => {
-    let path = `/editRooms`;
+    let path = `/editRooms/${RoomId}`;
     navigate(path);
     return <div>....redirecting</div>
   };
@@ -42,8 +42,8 @@ export default function PanelRooms({
         <p>Price: #{Price}</p>
         <p>RoomId: {RoomId}</p>
       </div>
-      <button onClick={deleteRoom}>Delete</button>
-      <button onClick={changeRoute}>Add</button>
+      <button onClick={deleteRoom}>Delete Room</button>
+      <button onClick={changeRoute}>Edit Room</button>
     </div>
   );
 }
