@@ -1,4 +1,15 @@
+import React from "react";
+import useEffect from 'react';
+
+// useEffect(() =>{
+//   fetch()
+// })
+
+
 export const HotelData = [
+
+
+  
     {
       id: 1,
       year: 2016,

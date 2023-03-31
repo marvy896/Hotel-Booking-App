@@ -3,7 +3,7 @@ import { Pie } from "react-chartjs-2";
 export default function PieChart({ chartData }) {
   return (
     <div className="chart-container">
-      <h2 style={{ textAlign: "center" }}>Customers Usage Data</h2>
+      <h2 style={{ textAlign: "center" }}>Room Usage Data</h2>
       <Pie
         data={chartData}
         options={{
