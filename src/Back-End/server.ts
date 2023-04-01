@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { ReceiptData, Room } from "../components/Interface";
 import multer from "multer";
 import bodyParser from "body-parser";
+import session from "express-session";
+
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -46,6 +48,37 @@ app.use("/createRooms", express.static("dist"));
 app.use("/src", express.static("src"));
 app.use("/uploads", express.static("uploads"));
 
+app.set("trust proxy", 1); // trust first proxy
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { sameSite: "strict", secure: true },
+  })
+);
+
+let checkAuth = (req: any, res: any, next: any) => {
+  if (!req.session.user_id) {
+    res.send("You are not authorized to view this page");
+  } else {
+    next();
+  }
+};
+app.get("/panel", checkAuth, function (req, res) {
+  res.send("if you are viewing this page it means you are logged in");
+});
+
+//LOGIN
+app.post("/login", (req, res) => {
+  let body = req.body;
+  if (body.email == "onyex896@gmail.com" && body.password == "123") {
+    // res.status(302).redirect("http://127.0.0.1:1234/panel");
+    return res.sendStatus(200)
+  } else {
+    res.status(404).send("Please Verify your details");
+  }
+});
 
 app.get("/roomsData", (_req, res) => {
   let cursor = client.db("HotelDatabase").collection("RoomsData").find({});
@@ -299,19 +332,6 @@ app.post("/updatePayments", (req, res) => {
       console.log(error);
       res.sendStatus(500);
     });
-});
-//LOGIN
-app.post("/staff", (req, res) => {
-  let userId = req.query.email;
-  let passWord = req.body.password;
-
-  if (userId == null || (typeof userId != "string" && passWord == passWord)) {
-    res.sendStatus(400);
-    return;
-  }
-  let cursor = client.db("HotelDatabase").collection("bookings");
-
-  // console.log(cursor)
 });
 
 //CREATE ROOMS AND CUSTOMERS

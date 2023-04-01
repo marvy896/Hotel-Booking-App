@@ -5,13 +5,18 @@ import { useState, FormEvent } from "react";
 import { HotelData } from "../utils/data";
 import { ReceiptData, Room } from "../../components/Interface";
 import PieChart from "../components/pieChart.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import PanelRooms from "../../components/panelRooms";
 import PanelCustomers from "../../components/PanelCustomers";
 
 Chart.register(CategoryScale);
 
 export default function Panel() {
+
+  if(!sessionStorage.getItem('isLoggedIn')){
+    return <Navigate to='/login' />
+  }
+
   let [room, setRoom] = useState<Room[]>([]);
   let [cstDetails, setCstDetails] = useState<ReceiptData[]>([]);
   let navigate = useNavigate();
@@ -71,6 +76,10 @@ export default function Panel() {
       <div className="Panel1">
         <h1>Welcome to the Staff Panel</h1>
         <h3>See the Performance of the Website.</h3>
+        <button onClick={()=>{
+          sessionStorage.removeItem('isLoggedIn')
+          navigate('/login', {replace: true})
+        }}>Log out</button>
         <div className="panel4">
           <button onClick={submit1}>Edit Rooms</button>
           <button onClick={submit}>Edit Customers</button>
