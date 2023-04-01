@@ -85,15 +85,18 @@ export default function Panel() {
           <button onClick={submit}>Edit Customers</button>
         </div>
       </div>
-      <div className="innerPage">
-        <div className="Panel11">
-          <div className="view">View Customers</div>
-          <div className="view">View Rooms</div>
-        </div>
-        <div className="panel3">
+      <div className="panel3">
           <PieChart chartData={chartData} />
         </div>
-      </div>
+      {/* <div className="innerPage"> */}
+        {/* <div className="Panel11">
+          <div className="view">View Customers</div>
+          <div className="view">View Rooms</div>
+        </div> */}
+        {/* <div className="panel3">
+          <PieChart chartData={chartData} />
+        </div>
+      </div> */}
       <div className="list">
         <div className="listPanel">
           <h2>Available Rooms</h2>
@@ -107,12 +110,27 @@ export default function Panel() {
         </div>
         <div className="listPanel">
           <h2>Confirmed Bookings</h2>
-          {cstDetails &&
+          <table>
+            <thead>
+              <tr>
+              {cstDetails.map((item, text) => (
+              <th key={item._id}>{}</th>
+              ))}
+              </tr>
+            </thead>
+            {cstDetails &&
+            cstDetails.map((item) => (
+              <tr key={item._id}>
+                <PanelCustomers {...item} />
+              </tr>
+            ))}
+          </table>
+          {/* {cstDetails &&
             cstDetails.map((item) => (
               <div key={item._id}>
                 <PanelCustomers {...item} />
               </div>
-            ))}
+            ))} */}
         </div>
       </div>
     </div>
