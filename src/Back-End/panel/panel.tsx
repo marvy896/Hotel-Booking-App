@@ -4,8 +4,7 @@ import { CategoryScale } from "chart.js";
 import { useState, FormEvent } from "react";
 import { HotelData } from "../utils/data";
 import { ReceiptData, Room } from "../../components/Interface";
- //@ts-ignore
-import PieChart from "../components/pieChart.js";
+import PieChart from "../components/pieChart";
 import { useNavigate, Navigate } from "react-router-dom";
 import PanelRooms from "../../components/panelRooms";
 import PanelCustomers from "../../components/PanelCustomers";
@@ -103,7 +102,7 @@ export default function Panel() {
           <h2>Available Rooms</h2>
           {room &&
             room.map((item) => (
-              <div key={item.RoomId}>
+              <div key={item._id}>
                 <PanelRooms {...item} />
               </div>
             ))}
@@ -111,21 +110,34 @@ export default function Panel() {
         </div>
         <div className="listPanel">
           <h2>Confirmed Bookings</h2>
-          <table>
+          <div className="parentTable">
+          <table className="customers">
             <thead>
-              <tr>
-              {cstDetails.map((item, text) => (
-              <th key={item._id}>{}</th>
-              ))}
-              </tr>
-            </thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone No</th>
+              <th>Date of Payment</th>
+              <th>Number of Occupants</th>
+              <th>Type of Room</th>
+              <th>Starting Date</th>
+              <th>Ending Date:</th>
+              <th>Card Number</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+            <tbody>
             {cstDetails &&
-            cstDetails.map((item) => (
-              <tr key={item._id}>
+            cstDetails.map((item, index) => (
+              <tr key={index}>
                 <PanelCustomers {...item} />
               </tr>
             ))}
+  
+            </tbody>
           </table>
+          </div>
           {/* {cstDetails &&
             cstDetails.map((item) => (
               <div key={item._id}>

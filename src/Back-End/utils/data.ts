@@ -7,9 +7,6 @@ import useEffect from 'react';
 
 
 export const HotelData = [
-
-
-  
     {
       id: 1,
       year: 2016,

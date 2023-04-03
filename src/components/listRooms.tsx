@@ -3,6 +3,7 @@ import { BiChevronRightCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
 export interface Roomss {
+  _id: string,
   RoomId: number;
   NameOfRoom: string;
   Price: number;

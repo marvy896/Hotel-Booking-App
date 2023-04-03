@@ -1,5 +1,6 @@
 import Receipt from "../Back-End/paymentPage/receipt";
 export interface Room {
+  _id: string,
   RoomId: number;
   NameOfRoom: string;
   Price: number;

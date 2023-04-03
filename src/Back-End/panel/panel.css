@@ -182,18 +182,23 @@ button {
   align-items: center;
   /* justify-content: center; */
 }
+.parentTable {
+  width: 90vw;
+  overflow-x: scroll;
+}
 .customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   border: 2px solid green;
   border-radius: 10px;
-  width: 1020px;
+
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
   padding: 5px;
   margin: 5px;
 }
 
-.customers td, .customers th {
+.customers td,
+.customers th {
   border: 1px solid #ddd;
   padding: 8px;
   width: 80px;
@@ -207,7 +212,8 @@ button {
   background-color: #ddd;
   border: #04aa6d;
 }
-.customers td, .customers th:hover {
+.customers td,
+.customers th:hover {
   color: black;
   border: 1px solid #f3f7f4;
 }

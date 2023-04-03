@@ -109,7 +109,7 @@ app.get("/getPayments", (_req, res) => {
     });
   // console.log(cursor)
 });
-app.get("/getPaymentData", (req, res) => {
+app.get("/getPaymentData", adminOnly, (req, res) => {
   client
     .db("HotelDatabase")
     .collection("bookings")
