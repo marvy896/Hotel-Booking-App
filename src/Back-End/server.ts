@@ -1,14 +1,12 @@
 import express, { json, response } from "express";
-import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
 import { MongoClient, ObjectId } from "mongodb";
 import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
-import { useEffect } from "react";
 import { ReceiptData, Room } from "../components/Interface";
 import multer from "multer";
 import bodyParser from "body-parser";
 import session from "express-session";
-
+;
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -54,27 +52,32 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: true,
-    cookie: { sameSite: "strict", secure: true },
+    // cookie: { sameSite: "strict", secure: true },
   })
 );
 
-let checkAuth = (req: any, res: any, next: any) => {
-  if (!req.session.user_id) {
+let adminOnly = (req: any, res: any, next: any) => {
+  if (!req.session.isLoggedIn) {
     res.send("You are not authorized to view this page");
   } else {
     next();
   }
 };
-app.get("/panel", checkAuth, function (req, res) {
-  res.send("if you are viewing this page it means you are logged in");
-});
 
+app.get("/test", (req, res) => {
+  //@ts-ignore
+  res.json(req.session.isLoggedIn);
+  req.session.reload(() => {
+    console.log(req.session);
+  });
+});
 //LOGIN
 app.post("/login", (req, res) => {
   let body = req.body;
   if (body.email == "onyex896@gmail.com" && body.password == "123") {
-    // res.status(302).redirect("http://127.0.0.1:1234/panel");
-    return res.sendStatus(200)
+    //@ts-ignore
+    req.session.isLoggedIn = true
+    return res.sendStatus(200);
   } else {
     res.status(404).send("Please Verify your details");
   }
@@ -355,7 +358,7 @@ app.post("/createCustomers", async (req, res) => {
     res.status(400).end();
   }
 });
-app.post("/createRooms", upload.single("Image"), async (req, res) => {
+app.post("/createRooms",adminOnly, upload.single("Image"), async (req, res) => {
   let data = req.body;
   data.Image = req.file ? "/" + req.file.path.replace("\\", "/") : undefined;
   data.Price = parseInt(data.Price);
@@ -379,7 +382,7 @@ app.post("/createRooms", upload.single("Image"), async (req, res) => {
   }
 });
 //UPDATE FOR ROOMS AND CUSTOMERS
-app.post("/updateRooms", upload.single("upImage"), (req, res) => {
+app.post("/updateRooms",adminOnly, upload.single("upImage"), (req, res) => {
   let roomId = parseInt(req.body.uproomId);
   let roomName: string = req.body.upNameOfRoom;
   let price = parseInt(req.body.upPrice);
@@ -409,7 +412,7 @@ app.post("/updateRooms", upload.single("upImage"), (req, res) => {
     });
 });
 //Delete Room
-app.post("/deleteRoom", (req, res) => {
+app.post("/deleteRoom",adminOnly,  (req, res) => {
   let roomId = parseInt(req.body.RoomId);
   if (roomId) {
     client

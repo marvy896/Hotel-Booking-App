@@ -4,6 +4,7 @@ import { CategoryScale } from "chart.js";
 import { useState, FormEvent } from "react";
 import { HotelData } from "../utils/data";
 import { ReceiptData, Room } from "../../components/Interface";
+ //@ts-ignore
 import PieChart from "../components/pieChart.js";
 import { useNavigate, Navigate } from "react-router-dom";
 import PanelRooms from "../../components/panelRooms";
