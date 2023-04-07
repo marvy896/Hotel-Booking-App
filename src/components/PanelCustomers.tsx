@@ -21,8 +21,8 @@ export default function PanelCustomers({
     new Date(Date_of_payment)
   );
   //TODO: format date and price before sending to the database
-  //   let DateFormat1 = new Intl.DateTimeFormat("en-US").format(new Date(start));
-  //   let DateFormat2 = new Intl.DateTimeFormat("en-US").format(new Date(end));
+    let DateFormat1 = new Intl.DateTimeFormat("en-US").format(new Date(start));
+    let DateFormat2 = new Intl.DateTimeFormat("en-US").format(new Date(end));
   return (
       <>
               <td>{firstName}</td>
@@ -32,8 +32,8 @@ export default function PanelCustomers({
               <td>{DateFormat}</td>
               <td>{occupants}</td>
               <td>{roomType}</td>
-              <td>{start}</td>
-              <td>{end}</td>
+              <td>{ DateFormat1}</td>
+              <td>{DateFormat2}</td>
               <td>**** **** **** {cardNumber}</td>
               <td>{priceFormat}</td>
       </>

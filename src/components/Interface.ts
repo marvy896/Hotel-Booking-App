@@ -9,7 +9,7 @@ export interface Room {
 }
 
 export interface ReceiptData {
-  _id: string;
+  _id: string|number ;
   occupants: number;
   roomType: number;
   start: string;
@@ -24,4 +24,5 @@ export interface ReceiptData {
     email: string;
     phone: string;
   };
+  room: Room
 }

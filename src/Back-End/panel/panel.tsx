@@ -2,44 +2,30 @@ import React, { useEffect } from "react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useState, FormEvent } from "react";
-import { HotelData } from "../utils/data";
+// import { HotelData, PieData } from '../utils/data';
 import { ReceiptData, Room } from "../../components/Interface";
-import PieChart from "../components/pieChart";
+import RoomTypePieChart from "../utils/data";
 import { useNavigate, Navigate } from "react-router-dom";
 import PanelRooms from "../../components/panelRooms";
 import PanelCustomers from "../../components/PanelCustomers";
-
 Chart.register(CategoryScale);
 
 export default function Panel() {
-
-  if(!sessionStorage.getItem('isLoggedIn')){
-    return <Navigate to='/login' />
+  if (!sessionStorage.getItem("isLoggedIn")) {
+    return <Navigate to="/login" />;
   }
-
   let [room, setRoom] = useState<Room[]>([]);
   let [cstDetails, setCstDetails] = useState<ReceiptData[]>([]);
   let navigate = useNavigate();
-  const [chartData, setChartData] = useState({
-    labels: HotelData.map((data) => data.year),
-    datasets: [
-      {
-        label: "Users Gained ",
-        data: HotelData.map((data) => data.userGain),
-        backgroundColor: ["rgba(75,192,192,1)", "#f3ba2f", "#2a71d0"],
-        borderColor: "black",
-        borderWidth: 2,
-      },
-    ],
-  });
+
   let submit = (e: FormEvent) => {
     e.preventDefault();
     navigate("/customers");
   };
-  let submit1 = (e: FormEvent) => {
-    e.preventDefault();
-    navigate("/editRooms");
-  };
+  // let submit1 = (e: FormEvent) => {
+  //   e.preventDefault();
+  //   navigate("/editRooms");
+  // };
   useEffect(() => {
     try {
       fetch("/roomsData")
@@ -66,34 +52,37 @@ export default function Panel() {
   if (cstDetails == undefined) {
     return <div>loading....</div>;
   }
-  let onClickAddRoom =() => {
+  let onClickAddRoom = () => {
     let path = `/createRooms`;
     navigate(path);
-  }
+  };
 
   return (
     <div className="Panel">
       <div className="Panel1">
         <h1>Welcome to the Staff Panel</h1>
         <h3>See the Performance of the Website.</h3>
-        <button onClick={()=>{
-          sessionStorage.removeItem('isLoggedIn')
-          navigate('/login', {replace: true})
-        }}>Log out</button>
         <div className="panel4">
-          <button onClick={submit1}>Edit Rooms</button>
+          <button
+            onClick={() => {
+              sessionStorage.removeItem("isLoggedIn");
+              navigate("/login", { replace: true });
+            }}
+          >
+            Log out
+          </button>
           <button onClick={submit}>Edit Customers</button>
         </div>
       </div>
       <div className="panel3">
-          <PieChart chartData={chartData} />
-        </div>
+        <RoomTypePieChart bookingData={cstDetails} />
+      </div>
       {/* <div className="innerPage"> */}
-        {/* <div className="Panel11">
+      {/* <div className="Panel11">
           <div className="view">View Customers</div>
           <div className="view">View Rooms</div>
         </div> */}
-        {/* <div className="panel3">
+      {/* <div className="panel3">
           <PieChart chartData={chartData} />
         </div>
       </div> */}
@@ -106,37 +95,36 @@ export default function Panel() {
                 <PanelRooms {...item} />
               </div>
             ))}
-             <button onClick={ onClickAddRoom}>Add Room</button>
+          <button onClick={onClickAddRoom}>Add Room</button>
         </div>
         <div className="listPanel">
           <h2>Confirmed Bookings</h2>
           <div className="parentTable">
-          <table className="customers">
-            <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Phone No</th>
-              <th>Date of Payment</th>
-              <th>Number of Occupants</th>
-              <th>Type of Room</th>
-              <th>Starting Date</th>
-              <th>Ending Date:</th>
-              <th>Card Number</th>
-              <th>Total Price</th>
-            </tr>
-          </thead>
-            <tbody>
-            {cstDetails &&
-            cstDetails.map((item, index) => (
-              <tr key={index}>
-                <PanelCustomers {...item} />
-              </tr>
-            ))}
-  
-            </tbody>
-          </table>
+            <table className="customers">
+              <thead>
+                <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Phone No</th>
+                  <th>Date of Payment</th>
+                  <th>Number of Occupants</th>
+                  <th>Type of Room</th>
+                  <th>Starting Date</th>
+                  <th>Ending Date:</th>
+                  <th>Card Number</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cstDetails &&
+                  cstDetails.map((item, index) => (
+                    <tr key={index}>
+                      <PanelCustomers {...item} />
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
           {/* {cstDetails &&
             cstDetails.map((item) => (

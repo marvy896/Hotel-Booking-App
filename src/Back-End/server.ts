@@ -2,11 +2,10 @@ import express, { json, response } from "express";
 import { MongoClient, ObjectId } from "mongodb";
 import { Roomss } from "../components/listRooms";
 import { NumberOfNights, totalPrice } from "../components/totalPrice";
-import { ReceiptData, Room } from "../components/Interface";
+import { ReceiptData, Room } from '../components/Interface';
 import multer from "multer";
 import bodyParser from "body-parser";
 import session from "express-session";
-;
 
 const client = new MongoClient("mongodb://0.0.0.0:27017", {
   monitorCommands: true,
@@ -58,6 +57,7 @@ app.use(
 
 let adminOnly = (req: any, res: any, next: any) => {
   if (!req.session.isLoggedIn) {
+    // alert("You are not authorized to view this page")
     res.send("You are not authorized to view this page");
   } else {
     next();
@@ -123,10 +123,19 @@ app.get("/getPaymentData", adminOnly, (req, res) => {
           as: "joinedData",
         },
       },
+      {
+        $lookup: {
+          from: "RoomsData",
+          localField: "roomType",
+          foreignField: "RoomId",
+          as: "room",
+        },
+      },
     ])
     .toArray()
     .then((result) => {
       for (let data of result) {
+        data.room = data.room[0];
         data.customer = data.joinedData[0];
         if (data.customer != undefined) {
           delete data.customer.password;

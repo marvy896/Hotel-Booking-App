@@ -99,6 +99,8 @@ button {
   align-items: center;
   justify-content: center;
   padding: 10px;
+  /* width: 300px; */
+  place-content: center;
 }
 .Panel11 {
   position: relative;
