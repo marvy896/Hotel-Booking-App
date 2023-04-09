@@ -73,6 +73,7 @@ export default function Payment() {
       updatePayment(card, dateOfPayment, bookingParam);
     } else {
       alert("Please input a valid number");
+      
     }
   };
 
@@ -98,17 +99,17 @@ export default function Payment() {
         />
         <h3>Payment Day</h3>
         <DatePicker onChange={setDateOfPayment} value={dateOfPayment} />
-        <button className="bottomForm" onClick={submit}>
+        {/* <button className="bottomForm" onClick={submit}>
           <div className="FirstDiv">
             Register{" "}
             <div className="circle">
               <BiChevronRightCircle />
             </div>
           </div>
-        </button>
+        </button> */}
         <div className="Total1">Total Amount: {numberFormat}</div>
         <Link to="/" style={{ textDecoration: "none" }}>
-          <div className="FirstDiv">
+          <div className="FirstDiv" onClick={submit}>
             Pay Now{" "}
             <div className="circle">
               <BiChevronRightCircle />

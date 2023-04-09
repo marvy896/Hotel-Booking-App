@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "../index.css";
+import "../index2.css";
 import "../Back-End/paymentPage/receipt.css";
 import "../Back-End/panel/panel.css";
 import Rooms from "./rooms";

@@ -161,6 +161,7 @@ background-size: cover;
 }
 .member{
   width: auto;
+  padding: 10px;
   background-color: rgb(3, 3, 38);
   display: flex;
   flex-direction: column;
@@ -179,33 +180,28 @@ background-size: cover;
   width: auto;
 }
 .react-date-picker__inputGroup{
-  color: bisque;
-  background-color: antiquewhite;
-  text-emphasis-color: white;  
+  color: white;
+  background-color:rgb(1, 38, 39);
+  text-emphasis-color: rgb(253, 8, 8);  
 }
 .react-date-picker__inputGroup {
-  background: white;
-  color: bisque;
+  background: rgb(1, 38, 39);
+  color: white;
+}
+
+.formBookings{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  color: black;
+  justify-content: space-around;
+  gap: 10px;
+  margin: 10px;
 }
 input[type=text], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-input[type=password], select {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-input[type=email], select {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -230,6 +226,11 @@ input[type=submit]:hover {
   background-color: #45a049;
 }
 
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
 .bottomForm{
   display: flex;
   flex-direction: row;
@@ -241,11 +242,13 @@ input[type=submit]:hover {
 height: auto;
 padding: 10px;
 background-color:#10340e;
-border-top: 3px solid #ccc;
+color: white;
 }
 .paymentPageInner1{
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
 }
 .paymentPageInner{
   border-top: 3px solid #ccc;
@@ -254,9 +257,4 @@ border-top: 3px solid #ccc;
 }
 CreditCardInput{
   border: 3px double blue;
-}
-.formBookings{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }

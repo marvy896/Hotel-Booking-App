@@ -1,0 +1,86 @@
+/**
+resposive designs
+*/
+*,
+*::before,
+*,
+*::after {
+  box-sizing: border-box;
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    body {
+        font-weight: 12px;        
+      }
+  .nav {
+    padding: 10px;
+    width: 100%;
+  }
+  .nav1 {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+  .roommap {
+    display: grid;
+    padding: 5px;
+    grid-template-columns: repeat(1, auto);
+  }
+  .member1 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    align-content: flex-start;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .roommap {
+    display: grid;
+    padding: 5px;
+    grid-template-columns: repeat(1, auto);
+  }
+  .member1 {
+    display: flex;
+    flex-direction: row;
+    gap: 11em;
+    align-content: flex-start;
+    margin: 5px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .roommap {
+    display: grid;
+    padding: 5px;
+    grid-template-columns: repeat(4, auto);
+  }
+  /* .member1 {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    align-content: flex-start;
+  }
+} */
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .member1{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-content: center;
+        gap: 25em;
+        width: auto;
+      }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .example {
+    background: pink;
+  }
+}

@@ -10,8 +10,8 @@ export default function Form() {
   let [lastName, setLastName] = useState("");
   let [email, setEmail] = useState("");
   let [phone, setPhone] = useState("");
-  let [password, setPassword] = useState("");
-  let [Confirmpassword, setConfirmpassword] = useState("");
+  // let [password, setPassword] = useState("");
+  // let [Confirmpassword, setConfirmpassword] = useState("");
   let navigate = useNavigate();
 
   let setBookings = (id:string, customerID: string) => {    
@@ -27,13 +27,13 @@ export default function Form() {
 
   let submit = (e: FormEvent) => {
     e.preventDefault();
-    if (password == Confirmpassword) {
+    // if (password == Confirmpassword) {
       fetch("/customers", {
         headers: {
           "Content-Type": "application/json",
         },
         method: "POST",
-        body: JSON.stringify({ firstName, lastName, email, phone, password }),
+        body: JSON.stringify({ firstName, lastName, email, phone}),
       })
         .then((res) => res.json())
         .then(({ customerID }) => {
@@ -49,9 +49,6 @@ export default function Form() {
           
           navigate(`/payment?booking=${bookingParam}`);
         });
-    } else {
-      alert("Password doesn't match");
-    }
   };
   return (
     <>
@@ -67,7 +64,10 @@ export default function Form() {
             </div>
           </Link>
         </div>
-        <form onSubmit={submit}>
+    
+        <h3> Please input your Personal Details</h3>
+        <form className="formBookings" onSubmit={submit}>
+          First Name
           <input
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
@@ -76,6 +76,7 @@ export default function Form() {
             name="firstName"
             required
           />
+          Last Name
           <input
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
@@ -84,6 +85,7 @@ export default function Form() {
             name="lastName"
             required
           />
+          Email Address
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -92,6 +94,7 @@ export default function Form() {
             name="email"
             required
           />
+          Phone Number
           <input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
@@ -100,7 +103,7 @@ export default function Form() {
             name="Phone"
             required
           />
-          <input
+          {/* <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
@@ -115,7 +118,7 @@ export default function Form() {
             type="password"
             name="password"
             required
-          />
+          /> */}
           <button className="bottomForm" onClick={submit}>
             <div className="FirstDiv">
               Register{" "}
@@ -125,6 +128,7 @@ export default function Form() {
             </div>
           </button>
         </form>
+        </div>
         <div className="bottomForm">
           <Link to="/" style={{ textDecoration: "none" }}>
             <div className="FirstDiv">
@@ -142,7 +146,6 @@ export default function Form() {
               </div>
             </div>
           </Link> */}
-        </div>
       </div>
       <ProgressBar completed={60} />
       <Footer />

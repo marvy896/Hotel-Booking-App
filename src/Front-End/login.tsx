@@ -43,7 +43,8 @@ export default function Login() {
         <div>
           <h2>Marvy's Place</h2>
         </div>
-        <form>
+        <form className="formBookings">
+          Please input Email
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -52,6 +53,7 @@ export default function Login() {
             name="email"
             required
           />
+          Input Password
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}

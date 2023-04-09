@@ -94,9 +94,9 @@ export default function Booking() {
                 </option>
               ))}
           </select>
-          <h3>Starting Day</h3>
+          Starting Day
           <DatePicker onChange={setStart} value={start} />
-          <h3>Ending Day Day</h3>
+          Ending Day Day
           <DatePicker2 onChange={setEnd} value={end} />
           {TotalDays == 0 && <p>please select a avalid date</p>}
           <button className="bottomForm" onClick={submit}>
@@ -127,9 +127,9 @@ export default function Booking() {
             </div>
           </Link>
         </div>
+      </div>
         <ProgressBar completed={20} />
         <Footer />
-      </div>
     </>
   );
 }

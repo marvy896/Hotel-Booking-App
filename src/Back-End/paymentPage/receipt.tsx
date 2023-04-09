@@ -27,7 +27,7 @@ export default function Receipt() {
       style: "currency",
       currency: "NGN",
       currencyDisplay: "narrowSymbol",
-    }).format(receiptData?.TotalPrice);
+    }).format(receiptData?.TotalPrice/100);
     
 
    let DateFormat = new Intl.DateTimeFormat('en-US').format(new Date(receiptData.Date_of_payment));

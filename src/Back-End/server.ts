@@ -188,8 +188,7 @@ app.post("/customers", async (req, res) => {
     data.firstName &&
     data.lastName &&
     data.email &&
-    data.phone &&
-    data.password
+    data.phone
   ) {
     let result = await client
       .db("HotelDatabase")

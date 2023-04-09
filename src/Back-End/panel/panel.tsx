@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useState, FormEvent } from "react";
-// import { HotelData, PieData } from '../utils/data';
 import { ReceiptData, Room } from "../../components/Interface";
 import RoomTypePieChart from "../utils/data";
 import { useNavigate, Navigate } from "react-router-dom";
