@@ -30,7 +30,7 @@ button {
   width: auto;
   padding: 5px;
   border: 2px solid black;
-  color: white;
+  /* color: white; */
   background-color: green;
   border-radius: 3px;
 }

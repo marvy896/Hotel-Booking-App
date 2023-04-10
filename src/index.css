@@ -180,14 +180,14 @@ background-size: cover;
   width: auto;
 }
 .react-date-picker__inputGroup{
-  color: white;
-  background-color:rgb(1, 38, 39);
-  text-emphasis-color: rgb(253, 8, 8);  
+  color: rgb(4, 4, 4);
+  background-color:rgb(250, 247, 247);
+  /* text-emphasis-color: rgb(253, 8, 8);   */
 }
-.react-date-picker__inputGroup {
-  background: rgb(1, 38, 39);
+/* .react-date-picker__inputGroup {
+  background:rgb(99, 99, 99);
   color: white;
-}
+} */
 
 .formBookings{
   display: flex;

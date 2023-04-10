@@ -58,14 +58,55 @@ export default function Payment() {
       });
     return fetched;
   };
+  const validateCreditCard = (cardNumber: string): boolean => {
+    const reversedCardNumberArray = cardNumber.split("").reverse().map(Number);
+    let sum = 0;
+
+    for (let i = 0; i < reversedCardNumberArray.length; i++) {
+      let digit = reversedCardNumberArray[i];
+
+      if (i % 2 !== 0) {
+        digit *= 2;
+
+        if (digit > 9) {
+          digit -= 9;
+        }
+      }
+
+      sum += digit;
+    }
+
+    return sum % 10 === 0;
+  };
+
+  /** To validate the date to make sure its in the future
+   * @returns true if the date in in the future otherwise false
+   */
+  let validateExpiry = (expiry: string): boolean => {
+    let currentDate = new Date();
+
+    let [month, year] = expiry.split("/").map(Number);
+    let currentYear = currentDate.getFullYear() - 2000;
+    let currentMonth = currentDate.getMonth();
+    if (year > currentYear || (year == currentYear && month > currentMonth)) {
+      return true
+    }
+    return false
+  };
+
+  let validateCvc = (cvc: string):boolean =>{
+    return cvc.length == 3
+  }
 
   let submit = (e: FormEvent) => {
     e.preventDefault;
-    let ValidNumb = "4242 4242 4242 4242";
-    let validCvc = "234";
-    let validExpirybe = "12 / 23";
 
-    if (cardNumber == ValidNumb && expiry == validExpirybe && cvc == validCvc) {
+    // let ValidNumb = "4242 4242 4242 4242";
+    validateCvc(cvc);
+    validateExpiry(expiry);
+    validateCreditCard(cardNumber);
+
+    if (validateCvc(cvc) && validateExpiry(expiry) && validateCreditCard(cardNumber)) {
       //TODO: ADD Card paymenet on server
       //TODO: ADD Payment Date to server
       let card = cardNumber.split(" ", 4).reverse()[0];
@@ -73,7 +114,6 @@ export default function Payment() {
       updatePayment(card, dateOfPayment, bookingParam);
     } else {
       alert("Please input a valid number");
-      
     }
   };
 
